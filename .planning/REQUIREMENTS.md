@@ -63,31 +63,31 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CONN-01 | — | Pending |
-| CONN-02 | — | Pending |
-| CONN-03 | — | Pending |
-| CONN-04 | — | Pending |
-| AV-01 | — | Pending |
-| AV-02 | — | Pending |
-| AV-03 | — | Pending |
-| AV-04 | — | Pending |
-| AV-05 | — | Pending |
-| AV-06 | — | Pending |
-| AV-07 | — | Pending |
-| AV-08 | — | Pending |
-| CHAT-01 | — | Pending |
-| PRIV-01 | — | Pending |
-| UX-01 | — | Pending |
-| UX-02 | — | Pending |
-| UX-03 | — | Pending |
-| UX-04 | — | Pending |
-| UX-05 | — | Pending |
+| CONN-01 | Phase 2 | Pending |
+| CONN-02 | Phase 2 | Pending |
+| CONN-03 | Phase 2 | Pending |
+| CONN-04 | Phase 3 | Pending |
+| AV-01 | Phase 3 | Pending |
+| AV-02 | Phase 2 | Pending |
+| AV-03 | Phase 2 | Pending |
+| AV-04 | Phase 2 | Pending |
+| AV-05 | Phase 2 | Pending |
+| AV-06 | Phase 5 | Pending |
+| AV-07 | Phase 5 | Pending |
+| AV-08 | Phase 5 | Pending |
+| CHAT-01 | Phase 4 | Pending |
+| PRIV-01 | Phase 1 | Pending |
+| UX-01 | Phase 2 | Pending |
+| UX-02 | Phase 3 | Pending |
+| UX-03 | Phase 5 | Pending |
+| UX-04 | Phase 3 | Pending |
+| UX-05 | Phase 5 | Pending |
 
 **Coverage:**
 - v1 requirements: 19 total
-- Mapped to phases: 0
-- Unmapped: 19 ⚠️
+- Mapped to phases: 19
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-11*
-*Last updated: 2026-03-11 after initial definition*
+*Last updated: 2026-03-11 after roadmap creation*
