@@ -12,7 +12,7 @@ MeetDrop delivers an anonymous, ephemeral 1-on-1 video meeting app with zero ser
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - Project scaffold, routing, self-hosted PeerJS signaling, TURN server config, and zero-persistence architecture guarantee
+- [x] **Phase 1: Foundation** - Project scaffold, routing, self-hosted PeerJS signaling, TURN server config, and zero-persistence architecture guarantee (completed 2026-03-10)
 - [ ] **Phase 2: Media + Lobby** - Camera/mic acquisition, pre-join lobby, device toggles, self-preview, and meeting link sharing
 - [ ] **Phase 3: Core Call** - Live 1-on-1 video/audio via PeerJS, connection status, clean disconnect screen, and join/leave sounds
 - [ ] **Phase 4: Encrypted Chat** - End-to-end encrypted text chat over DataChannel using ECDH key exchange and AES-GCM
@@ -30,7 +30,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. The self-hosted PeerJS signaling server accepts connections (not the free `0.peerjs.com` cloud)
   4. TURN server credentials are configured and the app can establish an ICE connection on a network that blocks direct peer-to-peer (e.g., mobile hotspot)
   5. React Strict Mode is enabled and PeerJS `Peer` instances are not double-initialized (verified by checking that only one peer ID is registered per session)
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 Plans:
 - [ ] 01-01-PLAN.md — Scaffold Vite project, routing, types, store, room ID generation, and test infrastructure
 - [ ] 01-02-PLAN.md — PeerJS usePeer hook with Strict Mode guard, TURN config, env vars, and browser verification
@@ -88,7 +88,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 1/2 | In Progress|  |
+| 1. Foundation | 2/2 | Complete   | 2026-03-10 |
 | 2. Media + Lobby | 0/TBD | Not started | - |
 | 3. Core Call | 0/TBD | Not started | - |
 | 4. Encrypted Chat | 0/TBD | Not started | - |

@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-foundation-01-PLAN.md
-last_updated: "2026-03-10T23:31:21.967Z"
+stopped_at: "Checkpoint 01-02 Task 2: human-verify"
+last_updated: "2026-03-10T23:35:53.382Z"
 last_activity: 2026-03-11 — Roadmap created, 19/19 requirements mapped across 5 phases
 progress:
   total_phases: 5
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 1
+  completed_plans: 2
   percent: 50
 ---
 
@@ -51,6 +51,7 @@ Progress: [█████░░░░░] 50%
 
 *Updated after each plan completion*
 | Phase 01-foundation P01 | 4 minutes | 2 tasks | 21 files |
+| Phase 01-foundation P02 | 2 minutes | 1 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -64,6 +65,8 @@ Recent decisions affecting current work:
 - [Pre-planning]: PeerJS `Peer` objects stored in `useRef`, not `useState` — prevents re-renders; React Strict Mode guard (`if (peerRef.current) return`) must be in place before any WebRTC work
 - [Phase 01-foundation]: wouter v3.9.0 uses Router hook={useHashLocation} pattern — HashRouter does not exist in v3
 - [Phase 01-foundation]: PRIV-01 enforced: Zustand store uses bare create() with no persist middleware — confirmed by localStorage isolation tests
+- [Phase 01-foundation]: Metered Open Relay used for dev TURN (openrelayproject credentials) — zero setup, 20 GB/month free
+- [Phase 01-foundation]: dual useEffect pattern for usePeer — Peer lifecycle on [roomId], beforeunload on [] — keeps concerns separated
 
 ### Pending Todos
 
@@ -77,6 +80,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-10T23:31:21.966Z
-Stopped at: Completed 01-foundation-01-PLAN.md
+Last session: 2026-03-10T23:35:53.381Z
+Stopped at: Checkpoint 01-02 Task 2: human-verify
 Resume file: None
