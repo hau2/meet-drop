@@ -26,7 +26,7 @@
 ### Chat & Privacy
 
 - [ ] **CHAT-01**: User can send and receive encrypted text messages via DataChannel (AES-GCM + ECDH key exchange)
-- [ ] **PRIV-01**: All session data is destroyed when the tab closes — zero persistence
+- [x] **PRIV-01**: All session data is destroyed when the tab closes — zero persistence
 
 ### UX & Polish
 
@@ -76,7 +76,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AV-07 | Phase 5 | Pending |
 | AV-08 | Phase 5 | Pending |
 | CHAT-01 | Phase 4 | Pending |
-| PRIV-01 | Phase 1 | Pending |
+| PRIV-01 | Phase 1 | Complete |
 | UX-01 | Phase 2 | Pending |
 | UX-02 | Phase 3 | Pending |
 | UX-03 | Phase 5 | Pending |

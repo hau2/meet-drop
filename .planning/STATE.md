@@ -1,3 +1,19 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: planning
+stopped_at: Completed 01-foundation-01-PLAN.md
+last_updated: "2026-03-10T23:31:21.967Z"
+last_activity: 2026-03-11 — Roadmap created, 19/19 requirements mapped across 5 phases
+progress:
+  total_phases: 5
+  completed_phases: 0
+  total_plans: 2
+  completed_plans: 1
+  percent: 50
+---
+
 # Project State
 
 ## Project Reference
@@ -14,7 +30,7 @@ Plan: 0 of TBD in current phase
 Status: Ready to plan
 Last activity: 2026-03-11 — Roadmap created, 19/19 requirements mapped across 5 phases
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
@@ -34,6 +50,7 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: -
 
 *Updated after each plan completion*
+| Phase 01-foundation P01 | 4 minutes | 2 tasks | 21 files |
 
 ## Accumulated Context
 
@@ -45,6 +62,8 @@ Recent decisions affecting current work:
 - [Pre-planning]: Self-host PeerJS signaling server — free `0.peerjs.com` cloud has documented reliability issues; deploy `peerjs-server` on Railway/Render/Fly.io free tier before any feature work
 - [Pre-planning]: Configure TURN server from day one — 15-30% of users cannot connect STUN-only on corporate/symmetric-NAT networks; Metered.ca or Cloudflare TURN are the candidates
 - [Pre-planning]: PeerJS `Peer` objects stored in `useRef`, not `useState` — prevents re-renders; React Strict Mode guard (`if (peerRef.current) return`) must be in place before any WebRTC work
+- [Phase 01-foundation]: wouter v3.9.0 uses Router hook={useHashLocation} pattern — HashRouter does not exist in v3
+- [Phase 01-foundation]: PRIV-01 enforced: Zustand store uses bare create() with no persist middleware — confirmed by localStorage isolation tests
 
 ### Pending Todos
 
@@ -58,6 +77,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11
-Stopped at: Roadmap created and files written — ready to run `/gsd:plan-phase 1`
+Last session: 2026-03-10T23:31:21.966Z
+Stopped at: Completed 01-foundation-01-PLAN.md
 Resume file: None
