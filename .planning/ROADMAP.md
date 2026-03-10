@@ -30,7 +30,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. The self-hosted PeerJS signaling server accepts connections (not the free `0.peerjs.com` cloud)
   4. TURN server credentials are configured and the app can establish an ICE connection on a network that blocks direct peer-to-peer (e.g., mobile hotspot)
   5. React Strict Mode is enabled and PeerJS `Peer` instances are not double-initialized (verified by checking that only one peer ID is registered per session)
-**Plans**: TBD
+**Plans:** 2 plans
+Plans:
+- [ ] 01-01-PLAN.md — Scaffold Vite project, routing, types, store, room ID generation, and test infrastructure
+- [ ] 01-02-PLAN.md — PeerJS usePeer hook with Strict Mode guard, TURN config, env vars, and browser verification
 
 ### Phase 2: Media + Lobby
 **Goal**: Users can preview their camera and mic before joining, share a meeting link, and control their media tracks — everything needed before a peer connection exists
@@ -85,7 +88,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/TBD | Not started | - |
+| 1. Foundation | 0/2 | Planning complete | - |
 | 2. Media + Lobby | 0/TBD | Not started | - |
 | 3. Core Call | 0/TBD | Not started | - |
 | 4. Encrypted Chat | 0/TBD | Not started | - |
