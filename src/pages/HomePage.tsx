@@ -1,8 +1,16 @@
+import { useEffect } from 'react'
 import { useLocation } from 'wouter'
 import { generateRoomId } from '../lib/room'
+import { useCallStore } from '../store'
 
 export function HomePage() {
   const [, setLocation] = useLocation()
+  const { reset } = useCallStore()
+
+  // Reset store on mount — clears any stale state when navigating back home (PRIV-01 defense in depth)
+  useEffect(() => {
+    reset()
+  }, [reset])
 
   function handleCreateMeeting() {
     const id = generateRoomId()

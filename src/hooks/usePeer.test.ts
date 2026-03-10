@@ -1,22 +1,19 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { renderHook, act } from '@testing-library/react'
+import { renderHook } from '@testing-library/react'
 import React from 'react'
-import { usePeer } from './usePeer'
 
-// Mock peerjs module
-const mockPeerInstance = {
-  on: vi.fn(),
-  destroy: vi.fn(),
-  id: 'test-peer-id',
-}
+// vi.mock is hoisted — must NOT reference module-level variables inside the factory
+vi.mock('peerjs', () => {
+  const mockInstance = {
+    on: vi.fn().mockReturnThis(),
+    destroy: vi.fn(),
+    id: 'test-peer-id',
+  }
+  const MockPeer = vi.fn(() => mockInstance)
+  ;(MockPeer as unknown as { _mockInstance: typeof mockInstance })._mockInstance = mockInstance
+  return { default: MockPeer }
+})
 
-const MockPeer = vi.fn(() => mockPeerInstance)
-
-vi.mock('peerjs', () => ({
-  default: MockPeer,
-}))
-
-// Mock the store
 vi.mock('../store', () => ({
   useCallStore: vi.fn(() => ({
     setConnectionState: vi.fn(),
@@ -24,11 +21,23 @@ vi.mock('../store', () => ({
   })),
 }))
 
+// Import after mocks are set up
+import { usePeer } from './usePeer'
+import Peer from 'peerjs'
+
+function getMockPeer() {
+  return (Peer as unknown as { _mockInstance: ReturnType<typeof Peer> })._mockInstance
+}
+
 describe('usePeer', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mockPeerInstance.on.mockImplementation(() => mockPeerInstance)
-    mockPeerInstance.destroy.mockImplementation(() => {})
+    const inst = getMockPeer()
+    if (inst) {
+      inst.on = vi.fn().mockReturnThis()
+      inst.destroy = vi.fn()
+    }
+    ;(Peer as unknown as ReturnType<typeof vi.fn>).mockImplementation(() => getMockPeer())
   })
 
   afterEach(() => {
@@ -42,15 +51,16 @@ describe('usePeer', () => {
     renderHook(() => usePeer('test-room'), { wrapper })
 
     // Despite StrictMode running effects twice, guard prevents second Peer creation
-    expect(MockPeer).toHaveBeenCalledTimes(1)
+    expect(Peer).toHaveBeenCalledTimes(1)
   })
 
   it('passes iceServers config including TURN to Peer constructor', () => {
     renderHook(() => usePeer('test-room'))
 
-    expect(MockPeer).toHaveBeenCalledTimes(1)
+    expect(Peer).toHaveBeenCalledTimes(1)
 
-    const callArgs = MockPeer.mock.calls[0]
+    const MockPeerFn = Peer as unknown as ReturnType<typeof vi.fn>
+    const callArgs = MockPeerFn.mock.calls[0]
     // Second arg is the config object
     const config = callArgs[1]
 
@@ -91,10 +101,11 @@ describe('usePeer', () => {
   })
 
   it('calls peer.destroy() on cleanup', () => {
+    const mockInst = getMockPeer()
     const { unmount } = renderHook(() => usePeer('test-room'))
 
     unmount()
 
-    expect(mockPeerInstance.destroy).toHaveBeenCalled()
+    expect(mockInst.destroy).toHaveBeenCalled()
   })
 })
