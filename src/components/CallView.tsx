@@ -181,35 +181,39 @@ export function CallView({
           onToggleCamera={toggleCamera}
         />
 
-        {/* Screen share button */}
-        <Button
-          onClick={onToggleScreenShare}
-          variant={isScreenSharing ? 'default' : 'secondary'}
-          size="lg"
-          aria-label={isScreenSharing ? 'Stop sharing' : 'Share screen'}
-          className="rounded-full"
-        >
-          {isScreenSharing ? (
-            <MonitorOff className="size-4" />
-          ) : (
-            <Monitor className="size-4" />
-          )}
-        </Button>
+        {/* Screen share button — hidden on mobile (no getDisplayMedia) */}
+        {!!navigator.mediaDevices?.getDisplayMedia && (
+          <Button
+            onClick={onToggleScreenShare}
+            variant={isScreenSharing ? 'default' : 'secondary'}
+            size="lg"
+            aria-label={isScreenSharing ? 'Stop sharing' : 'Share screen'}
+            className="rounded-full"
+          >
+            {isScreenSharing ? (
+              <MonitorOff className="size-4" />
+            ) : (
+              <Monitor className="size-4" />
+            )}
+          </Button>
+        )}
 
-        {/* Fullscreen button */}
-        <Button
-          onClick={toggleFullscreen}
-          variant="secondary"
-          size="lg"
-          aria-label="Toggle fullscreen"
-          className="rounded-full"
-        >
-          {isFullscreen ? (
-            <Minimize2 className="size-4" />
-          ) : (
-            <Maximize2 className="size-4" />
-          )}
-        </Button>
+        {/* Fullscreen button — hidden when API unavailable (iOS Safari) */}
+        {document.fullscreenEnabled && (
+          <Button
+            onClick={toggleFullscreen}
+            variant="secondary"
+            size="lg"
+            aria-label="Toggle fullscreen"
+            className="rounded-full"
+          >
+            {isFullscreen ? (
+              <Minimize2 className="size-4" />
+            ) : (
+              <Maximize2 className="size-4" />
+            )}
+          </Button>
+        )}
 
         {/* Chat toggle button with unread indicator */}
         <div className="relative">
