@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 05-01-PLAN.md — dark/light theme toggle and draggable self-view overlay
-last_updated: "2026-03-11T10:23:45.412Z"
+stopped_at: Completed 05-03-PLAN.md — awaiting human verification of all five polish features at checkpoint Task 2
+last_updated: "2026-03-11T10:28:14.102Z"
 last_activity: "2026-03-11 — Phase 2 Media + Lobby complete: lobby UI, camera preview, mic/camera toggles, copy link, PiP self-view, responsive layout — human verification approved"
 progress:
   total_phases: 5
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 11
-  completed_plans: 10
+  completed_plans: 11
   percent: 50
 ---
 
@@ -63,6 +63,7 @@ Progress: [█████░░░░░] 50%
 | Phase 04-encrypted-chat P02 | 15 | 2 tasks | 5 files |
 | Phase 05-polish P02 | 3 | 2 tasks | 7 files |
 | Phase 05-polish P01 | 7 | 2 tasks | 7 files |
+| Phase 05-polish P03 | 3 | 1 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -109,6 +110,9 @@ Recent decisions affecting current work:
 - [Phase 05-polish]: useRef used as drag guard in pointer handlers to avoid stale closure where React state update from pointerDown not visible in pointerMove before re-render
 - [Phase 05-polish]: Synchronous dark class init in main.tsx before createRoot prevents flash of wrong theme; sessionStorage is persistence layer (PRIV-01 compatible, no localStorage)
 - [Phase 05-polish]: SelfViewOverlay tests use new MouseEvent('pointerX') not fireEvent.pointerDown because jsdom PointerEvent does not support clientX/Y init
+- [Phase 05-polish]: NetworkQuality type moved to src/types/index.ts with re-export from useNetworkQuality — single source of truth, backward compatible
+- [Phase 05-polish]: containerRef applied to outermost CallView div so fullscreen includes controls overlay (Pitfall 4 from RESEARCH.md)
+- [Phase 05-polish]: document.fullscreenEnabled guard added for iOS Safari compatibility before requestFullscreen calls
 
 ### Pending Todos
 
@@ -122,6 +126,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11T10:23:45.411Z
-Stopped at: Completed 05-01-PLAN.md — dark/light theme toggle and draggable self-view overlay
+Last session: 2026-03-11T10:28:14.100Z
+Stopped at: Completed 05-03-PLAN.md — awaiting human verification of all five polish features at checkpoint Task 2
 Resume file: None

@@ -20,7 +20,7 @@
 - [x] **AV-04**: User can preview camera and mic in a lobby screen before joining
 - [x] **AV-05**: User can see their own video as a small picture-in-picture overlay
 - [x] **AV-06**: User can share their screen, replacing the camera track for the remote peer
-- [ ] **AV-07**: User can view remote video in fullscreen mode
+- [x] **AV-07**: User can view remote video in fullscreen mode
 - [x] **AV-08**: User can drag and reposition their self-view overlay
 
 ### Chat & Privacy
@@ -73,7 +73,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AV-04 | Phase 2 | Complete |
 | AV-05 | Phase 2 | Complete |
 | AV-06 | Phase 5 | Complete |
-| AV-07 | Phase 5 | Pending |
+| AV-07 | Phase 5 | Complete |
 | AV-08 | Phase 5 | Complete |
 | CHAT-01 | Phase 4 | Complete |
 | PRIV-01 | Phase 1 | Complete |
