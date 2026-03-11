@@ -32,8 +32,8 @@ Decimal phases appear between their surrounding integers in numeric order.
   5. React Strict Mode is enabled and PeerJS `Peer` instances are not double-initialized (verified by checking that only one peer ID is registered per session)
 **Plans:** 2/2 plans complete
 Plans:
-- [ ] 01-01-PLAN.md — Scaffold Vite project, routing, types, store, room ID generation, and test infrastructure
-- [ ] 01-02-PLAN.md — PeerJS usePeer hook with Strict Mode guard, TURN config, env vars, and browser verification
+- [x] 01-01-PLAN.md — Scaffold Vite project, routing, types, store, room ID generation, and test infrastructure
+- [x] 01-02-PLAN.md — PeerJS usePeer hook with Strict Mode guard, TURN config, env vars, and browser verification
 
 ### Phase 2: Media + Lobby
 **Goal**: Users can preview their camera and mic before joining, share a meeting link, and control their media tracks — everything needed before a peer connection exists
@@ -46,7 +46,10 @@ Plans:
   4. User can also join by entering a Room ID manually
   5. The lobby layout is usable on both a desktop browser (1280px+) and a mobile browser (375px) without horizontal scrolling or clipped controls
   6. User's own video appears as a picture-in-picture overlay with a mirrored self-view
-**Plans**: TBD
+**Plans:** 2 plans
+Plans:
+- [ ] 02-01-PLAN.md — useMedia hook, VideoPreview component, store extension, and media types (TDD)
+- [ ] 02-02-PLAN.md — HomePage join input, CopyLinkButton, MediaControls, SelfViewOverlay, RoomPage lobby layout, and human verification
 
 ### Phase 3: Core Call
 **Goal**: Two users on the same room link can see and hear each other in a live 1-on-1 video call with visible connection state and a clean exit experience
@@ -89,7 +92,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete    | 2026-03-11 |
-| 2. Media + Lobby | 0/TBD | Not started | - |
+| 2. Media + Lobby | 0/2 | Planning complete | - |
 | 3. Core Call | 0/TBD | Not started | - |
 | 4. Encrypted Chat | 0/TBD | Not started | - |
 | 5. Polish | 0/TBD | Not started | - |
