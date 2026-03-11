@@ -30,6 +30,7 @@ export function useChat(
 
   const { addMessage } = useCallStore()
   const peerId = useCallStore((state) => state.peerId)
+  const connectionState = useCallStore((state) => state.connectionState)
 
   const setupConnection = useCallback(
     (conn: DataConnection) => {
@@ -42,7 +43,11 @@ export function useChat(
       const mySetupId = ++setupIdRef.current
       connRef.current = conn
 
+      let openHandled = false
       const handleOpen = async () => {
+        // Guard: only run once (both 'open' event and conn.open check could fire)
+        if (openHandled) return
+        openHandled = true
         // Generate keypair and immediately send public key to peer
         const kp = await generateKeyPair()
         if (setupIdRef.current !== mySetupId) return // stale setup
@@ -113,10 +118,17 @@ export function useChat(
     [addMessage]
   )
 
+  // Track whether chat DataConnection has been initialized to prevent duplicates
+  const chatInitRef = useRef(false)
+
   useEffect(() => {
     const peer = peerRef.current
-    // Gate on peer.open — peerId is only set after peer.on('open') fires (Pitfall 6)
-    if (!peer || !peer.open || !peerId) return
+    // Gate on peer.open AND connected call — DataConnection is only created after
+    // the video call proves the signaling path works (prevents unreliable early connections)
+    if (!peer || !peer.open || !peerId || connectionState !== 'connected') return
+    // Prevent duplicate setup if effect re-runs while already initialized
+    if (chatInitRef.current) return
+    chatInitRef.current = true
 
     const isCreator = peer.id === roomId
 
@@ -128,6 +140,7 @@ export function useChat(
       peer.on('connection', handler)
 
       return () => {
+        chatInitRef.current = false
         peer.off('connection', handler)
         if (connRef.current) {
           connRef.current.removeAllListeners()
@@ -143,6 +156,7 @@ export function useChat(
       setupConnection(conn)
 
       return () => {
+        chatInitRef.current = false
         if (connRef.current) {
           connRef.current.removeAllListeners()
           connRef.current.close()
@@ -152,7 +166,7 @@ export function useChat(
         keyPairRef.current = null
       }
     }
-  }, [roomId, peerId]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [roomId, peerId, connectionState]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const sendMessage = useCallback(
     async (text: string) => {
