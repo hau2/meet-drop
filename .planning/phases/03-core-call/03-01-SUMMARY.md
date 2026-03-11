@@ -110,6 +110,10 @@ None - no external service configuration required.
 - Plan 02 (useCall hook + RoomPage wiring) can now import and integrate these building blocks
 - 21 new tests pass, full suite of 52 tests passes with zero regressions
 
+## Self-Check: PASSED
+
+All 7 created/modified files confirmed present on disk. Both task commits (76bd3cc, 1496ab6) confirmed in git log.
+
 ---
 *Phase: 03-core-call*
 *Completed: 2026-03-11*
