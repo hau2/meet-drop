@@ -23,30 +23,48 @@ export function usePeer(roomId: string) {
     // Strict Mode guard — prevents double-initialization in React 18+ dev mode
     if (peerRef.current) return
 
-    const peer = new Peer(roomId, {
-      host: import.meta.env.VITE_PEERJS_HOST,
-      port: Number(import.meta.env.VITE_PEERJS_PORT),
-      path: import.meta.env.VITE_PEERJS_PATH,
-      secure: import.meta.env.PROD,
+    const peerOptions: ConstructorParameters<typeof Peer>[1] = {
       config: { iceServers: ICE_SERVERS },
-    })
+    }
 
-    peer.on('open', (id) => {
-      setPeerId(id)
-      setConnectionState('connecting')
-    })
+    // Use custom signaling server if configured, otherwise fall back to PeerJS cloud
+    if (import.meta.env.VITE_PEERJS_HOST) {
+      peerOptions.host = import.meta.env.VITE_PEERJS_HOST
+      peerOptions.port = Number(import.meta.env.VITE_PEERJS_PORT)
+      peerOptions.path = import.meta.env.VITE_PEERJS_PATH
+      peerOptions.secure = import.meta.env.PROD
+    }
 
-    peer.on('error', (err) => {
-      console.error('PeerJS error:', err)
-      setConnectionState('failed')
-    })
+    function initPeer(id?: string) {
+      const peer = id ? new Peer(id, peerOptions) : new Peer(peerOptions)
 
-    peer.on('disconnected', () => setConnectionState('disconnected'))
+      peer.on('open', (peerId) => {
+        setPeerId(peerId)
+        setConnectionState('connecting')
+      })
 
-    peerRef.current = peer
+      peer.on('error', (err) => {
+        // If roomId is taken, we're the joiner — reconnect with a random ID
+        if (err.type === 'unavailable-id') {
+          peer.destroy()
+          initPeer() // random ID
+          return
+        }
+        console.error('PeerJS error:', err)
+        setConnectionState('failed')
+      })
+
+      peer.on('disconnected', () => setConnectionState('disconnected'))
+
+      peerRef.current = peer
+    }
+
+    // Try to register as the room creator (peerId = roomId).
+    // If that ID is taken, the error handler reconnects with a random ID (joiner).
+    initPeer(roomId)
 
     return () => {
-      peer.destroy()
+      peerRef.current?.destroy()
       peerRef.current = null
       setConnectionState('idle')
       setPeerId(null)

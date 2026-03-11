@@ -32,7 +32,7 @@ export function RoomPage() {
   const { id } = useParams<{ id: string }>()
   const { peerRef } = usePeer(id ?? '')
   const { streamRef, error, isLoading, toggleMic, toggleCamera } = useMedia()
-  const { isMicOn, isCameraOn, connectionState, callEnded } = useCallStore()
+  const { isMicOn, isCameraOn, connectionState, callEnded, joined, setJoined } = useCallStore()
   const { remoteStreamRef, hangUp } = useCall(peerRef, streamRef, id ?? '')
 
   const roomLink = `${window.location.origin}${import.meta.env.BASE_URL.replace(/\/$/, '')}/#/room/${id}`
@@ -95,14 +95,25 @@ export function RoomPage() {
             onToggleCamera={toggleCamera}
           />
           <CopyLinkButton url={roomLink} />
-          <Button
-            disabled
-            size="lg"
-            variant={connectionState === 'failed' ? 'destructive' : 'default'}
-            className="w-full"
-          >
-            {connectionState === 'failed' ? 'Connection failed' : 'Waiting for peer...'}
-          </Button>
+          {joined ? (
+            <Button
+              disabled
+              size="lg"
+              variant={connectionState === 'failed' ? 'destructive' : 'default'}
+              className="w-full"
+            >
+              {connectionState === 'failed' ? 'Connection failed' : 'Waiting for peer...'}
+            </Button>
+          ) : (
+            <Button
+              size="lg"
+              className="w-full"
+              onClick={() => setJoined(true)}
+              disabled={isLoading || !!error}
+            >
+              Join Meeting
+            </Button>
+          )}
         </CardContent>
       </Card>
     </div>

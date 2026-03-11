@@ -88,13 +88,22 @@ describe('RoomPage', () => {
     expect(screen.queryByTestId('meeting-ended')).not.toBeInTheDocument()
   })
 
-  it('renders lobby when connectionState is idle and callEnded is false', () => {
-    useCallStore.setState({ connectionState: 'idle', callEnded: false })
+  it('renders lobby with Join Meeting button when not joined', () => {
+    useCallStore.setState({ connectionState: 'idle', callEnded: false, joined: false })
+
+    render(<RoomPage />)
+
+    expect(screen.getByText('Join Meeting')).toBeInTheDocument()
+    expect(screen.queryByTestId('call-view')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('meeting-ended')).not.toBeInTheDocument()
+  })
+
+  it('renders lobby with Waiting for peer after joining', () => {
+    useCallStore.setState({ connectionState: 'idle', callEnded: false, joined: true })
 
     render(<RoomPage />)
 
     expect(screen.getByText('Waiting for peer...')).toBeInTheDocument()
-    expect(screen.queryByTestId('call-view')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('meeting-ended')).not.toBeInTheDocument()
+    expect(screen.queryByText('Join Meeting')).not.toBeInTheDocument()
   })
 })

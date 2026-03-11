@@ -13,7 +13,9 @@ vi.mock('peerjs', () => {
 
   const mockInstance = {
     id: 'test-peer-id',
+    open: true,
     on: vi.fn().mockReturnThis(),
+    off: vi.fn().mockReturnThis(),
     call: vi.fn(() => mockCall),
     destroy: vi.fn(),
     _mockCall: mockCall,
@@ -58,12 +60,16 @@ describe('useCall', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     useCallStore.getState().reset()
+    // Set peerId and joined so useCall effect triggers (it depends on both)
+    useCallStore.setState({ peerId: 'test-peer-id', joined: true })
 
     const inst = getMockPeer()
     const mockCall = getMockCall()
 
     // Re-wire mocks after clearAllMocks
     inst.on = vi.fn().mockReturnThis()
+    inst.off = vi.fn().mockReturnThis()
+    inst.open = true
     inst.call = vi.fn(() => mockCall)
     mockCall.on = vi.fn().mockReturnThis()
     mockCall.answer = vi.fn()
