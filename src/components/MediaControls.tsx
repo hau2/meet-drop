@@ -1,3 +1,4 @@
+import { Mic, MicOff, Camera, CameraOff } from 'lucide-react'
 import { cn } from '../lib/cn'
 
 interface MediaControlsProps {
@@ -18,7 +19,7 @@ export function MediaControls({ isMicOn, isCameraOn, onToggleMic, onToggleCamera
           isMicOn ? 'bg-zinc-700 hover:bg-zinc-600' : 'bg-red-600 hover:bg-red-500'
         )}
       >
-        {isMicOn ? 'Mic On' : 'Mic Off'}
+        {isMicOn ? <Mic className="w-5 h-5" /> : <MicOff className="w-5 h-5" />}
       </button>
       <button
         onClick={onToggleCamera}
@@ -28,7 +29,7 @@ export function MediaControls({ isMicOn, isCameraOn, onToggleMic, onToggleCamera
           isCameraOn ? 'bg-zinc-700 hover:bg-zinc-600' : 'bg-red-600 hover:bg-red-500'
         )}
       >
-        {isCameraOn ? 'Cam On' : 'Cam Off'}
+        {isCameraOn ? <Camera className="w-5 h-5" /> : <CameraOff className="w-5 h-5" />}
       </button>
     </div>
   )
