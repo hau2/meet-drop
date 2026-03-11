@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 04-01-PLAN.md — Phase 4 Plan 1 complete
-last_updated: "2026-03-11T03:40:01.590Z"
+stopped_at: "Checkpoint: Task 2 human-verify for 04-02-PLAN.md — awaiting two-browser encrypted chat verification"
+last_updated: "2026-03-11T03:44:26.185Z"
 last_activity: "2026-03-11 — Phase 2 Media + Lobby complete: lobby UI, camera preview, mic/camera toggles, copy link, PiP self-view, responsive layout — human verification approved"
 progress:
   total_phases: 5
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 8
-  completed_plans: 7
+  completed_plans: 8
   percent: 50
 ---
 
@@ -59,6 +59,7 @@ Progress: [█████░░░░░] 50%
 | Phase 03-core-call P02 | 5 | 2 tasks | 5 files |
 | Phase 03-core-call P02 | 45 | 3 tasks | 8 files |
 | Phase 04-encrypted-chat P01 | 4 | 2 tasks | 8 files |
+| Phase 04-encrypted-chat P02 | 3 | 1 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -95,6 +96,8 @@ Recent decisions affecting current work:
 - [Phase 03-core-call]: npm run dev starts both Vite and local PeerJS server concurrently for zero-config local development
 - [Phase 04-encrypted-chat]: Uint8Array passed directly to subtle.importKey (not .buffer) — avoids jsdom/Node realm mismatch where Uint8Array.from().buffer is a jsdom-realm ArrayBuffer rejected by Node webcrypto
 - [Phase 04-encrypted-chat]: vi.clearAllMocks() clears mockResolvedValue implementations — must re-set crypto mock return values in beforeEach after clearAllMocks in useChat tests
+- [Phase 04-encrypted-chat]: Unread indicator uses DOM ref (unreadDotRef.style.display) not state to avoid re-render on every new message
+- [Phase 04-encrypted-chat]: ChatPanel onSend typed as (text: string) => void not Promise — keeps component synchronous and testable
 
 ### Pending Todos
 
@@ -108,6 +111,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11T03:40:01.588Z
-Stopped at: Completed 04-01-PLAN.md — Phase 4 Plan 1 complete
+Last session: 2026-03-11T03:44:26.183Z
+Stopped at: Checkpoint: Task 2 human-verify for 04-02-PLAN.md — awaiting two-browser encrypted chat verification
 Resume file: None

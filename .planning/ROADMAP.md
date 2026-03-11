@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation** - Project scaffold, routing, self-hosted PeerJS signaling, TURN server config, and zero-persistence architecture guarantee (completed 2026-03-10)
 - [x] **Phase 2: Media + Lobby** - Camera/mic acquisition, pre-join lobby, device toggles, self-preview, and meeting link sharing (completed 2026-03-11)
 - [x] **Phase 3: Core Call** - Live 1-on-1 video/audio via PeerJS, connection status, clean disconnect screen, and join/leave sounds (completed 2026-03-11)
-- [ ] **Phase 4: Encrypted Chat** - End-to-end encrypted text chat over DataChannel using ECDH key exchange and AES-GCM
+- [x] **Phase 4: Encrypted Chat** - End-to-end encrypted text chat over DataChannel using ECDH key exchange and AES-GCM (completed 2026-03-11)
 - [ ] **Phase 5: Polish** - Screen sharing, fullscreen, draggable self-view, light theme toggle, and network quality indicator
 
 ## Phase Details
@@ -74,7 +74,7 @@ Plans:
   2. Messages are encrypted with AES-GCM using a key derived via ECDH key exchange — the raw message text is never visible in a network capture (DevTools Network tab shows no plaintext)
   3. Each message uses a unique random IV — sending the same text twice produces different ciphertext
   4. When the tab closes, all chat history is gone — no messages persist in storage
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 Plans:
 - [ ] 04-01-PLAN.md — Crypto module (ECDH + AES-GCM), useChat hook, store extension, and types
 - [ ] 04-02-PLAN.md — ChatPanel UI, CallView integration, RoomPage wiring, and human verification
@@ -100,7 +100,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Foundation | 2/2 | Complete    | 2026-03-11 |
 | 2. Media + Lobby | 2/2 | Complete    | 2026-03-11 |
 | 3. Core Call | 2/2 | Complete    | 2026-03-11 |
-| 4. Encrypted Chat | 1/2 | In Progress|  |
+| 4. Encrypted Chat | 2/2 | Complete   | 2026-03-11 |
 | 5. Polish | 0/TBD | Not started | - |
 
 ---
