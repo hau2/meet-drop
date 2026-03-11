@@ -1,11 +1,15 @@
 import { useParams } from 'wouter'
 import { usePeer } from '../hooks/usePeer'
 import { useMedia } from '../hooks/useMedia'
+import { useCall } from '../hooks/useCall'
 import { useCallStore } from '../store'
 import { VideoPreview } from '../components/VideoPreview'
 import { MediaControls } from '../components/MediaControls'
 import { CopyLinkButton } from '../components/CopyLinkButton'
 import { SelfViewOverlay } from '../components/SelfViewOverlay'
+import { ConnectionStatus } from '../components/ConnectionStatus'
+import { MeetingEnded } from '../components/MeetingEnded'
+import { CallView } from '../components/CallView'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -26,12 +30,31 @@ function getErrorMessage(error: string): string {
 
 export function RoomPage() {
   const { id } = useParams<{ id: string }>()
-  const { peerRef: _peerRef } = usePeer(id ?? '')
+  const { peerRef } = usePeer(id ?? '')
   const { streamRef, error, isLoading, toggleMic, toggleCamera } = useMedia()
-  const { isMicOn, isCameraOn } = useCallStore()
+  const { isMicOn, isCameraOn, connectionState, callEnded } = useCallStore()
+  const { remoteStreamRef, hangUp } = useCall(peerRef, streamRef, id ?? '')
 
   const roomLink = `${window.location.origin}${import.meta.env.BASE_URL.replace(/\/$/, '')}/#/room/${id}`
 
+  // State-driven rendering
+  if (callEnded) {
+    return <MeetingEnded />
+  }
+
+  if (connectionState === 'connected') {
+    return (
+      <CallView
+        remoteStreamRef={remoteStreamRef}
+        localStreamRef={streamRef}
+        onHangUp={hangUp}
+        toggleMic={toggleMic}
+        toggleCamera={toggleCamera}
+      />
+    )
+  }
+
+  // Lobby view
   return (
     <div className="flex flex-col md:flex-row gap-6 p-4 md:p-8 w-full max-w-5xl mx-auto min-h-screen items-center justify-center">
       {/* Left column: video area */}
@@ -58,7 +81,10 @@ export function RoomPage() {
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span>Lobby</span>
-            <Badge variant="outline" className="font-mono text-xs">{id}</Badge>
+            <div className="flex items-center gap-2">
+              <ConnectionStatus state={connectionState} />
+              <Badge variant="outline" className="font-mono text-xs">{id}</Badge>
+            </div>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -72,9 +98,10 @@ export function RoomPage() {
           <Button
             disabled
             size="lg"
+            variant={connectionState === 'failed' ? 'destructive' : 'default'}
             className="w-full"
           >
-            Waiting for peer...
+            {connectionState === 'failed' ? 'Connection failed' : 'Waiting for peer...'}
           </Button>
         </CardContent>
       </Card>
