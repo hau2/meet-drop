@@ -1,5 +1,5 @@
 import { Mic, MicOff, Camera, CameraOff } from 'lucide-react'
-import { cn } from '../lib/cn'
+import { Button } from '@/components/ui/button'
 
 interface MediaControlsProps {
   isMicOn: boolean
@@ -11,26 +11,26 @@ interface MediaControlsProps {
 export function MediaControls({ isMicOn, isCameraOn, onToggleMic, onToggleCamera }: MediaControlsProps) {
   return (
     <div className="flex gap-3">
-      <button
+      <Button
         onClick={onToggleMic}
         aria-label="Toggle microphone"
-        className={cn(
-          'flex-1 px-4 py-2 rounded-lg font-medium text-white transition-colors',
-          isMicOn ? 'bg-zinc-700 hover:bg-zinc-600' : 'bg-red-600 hover:bg-red-500'
-        )}
+        variant={isMicOn ? 'secondary' : 'destructive'}
+        size="lg"
+        className="flex-1"
       >
-        {isMicOn ? <Mic className="w-5 h-5" /> : <MicOff className="w-5 h-5" />}
-      </button>
-      <button
+        {isMicOn ? <Mic className="size-4" data-icon="inline-start" /> : <MicOff className="size-4" data-icon="inline-start" />}
+        {isMicOn ? 'Mic' : 'Muted'}
+      </Button>
+      <Button
         onClick={onToggleCamera}
         aria-label="Toggle camera"
-        className={cn(
-          'flex-1 px-4 py-2 rounded-lg font-medium text-white transition-colors',
-          isCameraOn ? 'bg-zinc-700 hover:bg-zinc-600' : 'bg-red-600 hover:bg-red-500'
-        )}
+        variant={isCameraOn ? 'secondary' : 'destructive'}
+        size="lg"
+        className="flex-1"
       >
-        {isCameraOn ? <Camera className="w-5 h-5" /> : <CameraOff className="w-5 h-5" />}
-      </button>
+        {isCameraOn ? <Camera className="size-4" data-icon="inline-start" /> : <CameraOff className="size-4" data-icon="inline-start" />}
+        {isCameraOn ? 'Camera' : 'Off'}
+      </Button>
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Copy, Check } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 interface CopyLinkButtonProps {
   url: string
@@ -27,11 +28,17 @@ export function CopyLinkButton({ url }: CopyLinkButtonProps) {
   }
 
   return (
-    <button
+    <Button
       onClick={handleCopy}
-      className="bg-zinc-700 hover:bg-zinc-600 text-white px-4 py-2 rounded-lg transition-colors w-full"
+      variant="outline"
+      size="lg"
+      className="w-full"
     >
-      {copied ? <><Check className="w-4 h-4 inline mr-1" />Copied!</> : <><Copy className="w-4 h-4 inline mr-1" />Copy Link</>}
-    </button>
+      {copied ? (
+        <><Check className="size-4" data-icon="inline-start" />Copied!</>
+      ) : (
+        <><Copy className="size-4" data-icon="inline-start" />Copy Link</>
+      )}
+    </Button>
   )
 }

@@ -15,6 +15,6 @@ describe('App routing', () => {
   it('renders RoomPage when navigating to /room/:id', () => {
     window.location.hash = '#/room/meet-abc123'
     render(<App />)
-    expect(screen.getByText(/Room:/)).toBeInTheDocument()
+    expect(screen.getByText('Lobby')).toBeInTheDocument()
   })
 })

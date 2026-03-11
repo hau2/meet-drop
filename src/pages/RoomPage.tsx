@@ -6,6 +6,10 @@ import { VideoPreview } from '../components/VideoPreview'
 import { MediaControls } from '../components/MediaControls'
 import { CopyLinkButton } from '../components/CopyLinkButton'
 import { SelfViewOverlay } from '../components/SelfViewOverlay'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Loader2 } from 'lucide-react'
 
 function getErrorMessage(error: string): string {
   switch (error) {
@@ -29,16 +33,17 @@ export function RoomPage() {
   const roomLink = `${window.location.origin}${import.meta.env.BASE_URL.replace(/\/$/, '')}/#/room/${id}`
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 p-4 w-full max-w-4xl mx-auto min-h-screen items-center justify-center">
+    <div className="flex flex-col md:flex-row gap-6 p-4 md:p-8 w-full max-w-5xl mx-auto min-h-screen items-center justify-center">
       {/* Left column: video area */}
-      <div className="relative w-full md:flex-1 aspect-video bg-zinc-900 rounded-xl overflow-hidden">
+      <div className="relative w-full md:flex-1 aspect-video bg-muted rounded-xl overflow-hidden border border-border">
         {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center text-zinc-400">
-            Requesting camera...
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground gap-2">
+            <Loader2 className="size-6 animate-spin" />
+            <span className="text-sm">Requesting camera...</span>
           </div>
         )}
         {error && !isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center text-red-400 text-center px-4">
+          <div className="absolute inset-0 flex items-center justify-center text-destructive text-center px-4 text-sm">
             {getErrorMessage(error)}
           </div>
         )}
@@ -49,24 +54,30 @@ export function RoomPage() {
       </div>
 
       {/* Right column: controls sidebar */}
-      <div className="flex flex-col gap-3 w-full md:w-64">
-        <p className="text-zinc-400 text-sm">
-          Room: <span className="text-white font-mono">{id}</span>
-        </p>
-        <MediaControls
-          isMicOn={isMicOn}
-          isCameraOn={isCameraOn}
-          onToggleMic={toggleMic}
-          onToggleCamera={toggleCamera}
-        />
-        <CopyLinkButton url={roomLink} />
-        <button
-          disabled
-          className="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 rounded-lg w-full opacity-60 cursor-not-allowed"
-        >
-          Waiting for peer...
-        </button>
-      </div>
+      <Card className="w-full md:w-72">
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between">
+            <span>Lobby</span>
+            <Badge variant="outline" className="font-mono text-xs">{id}</Badge>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <MediaControls
+            isMicOn={isMicOn}
+            isCameraOn={isCameraOn}
+            onToggleMic={toggleMic}
+            onToggleCamera={toggleCamera}
+          />
+          <CopyLinkButton url={roomLink} />
+          <Button
+            disabled
+            size="lg"
+            className="w-full"
+          >
+            Waiting for peer...
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   )
 }
