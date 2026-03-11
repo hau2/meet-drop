@@ -9,6 +9,7 @@ import { useCallStore } from '../store'
 import { VideoPreview } from '../components/VideoPreview'
 import { MediaControls } from '../components/MediaControls'
 import { CopyLinkButton } from '../components/CopyLinkButton'
+import { QRInvite } from '../components/QRInvite'
 import { SelfViewOverlay } from '../components/SelfViewOverlay'
 import { ConnectionStatus } from '../components/ConnectionStatus'
 import { MeetingEnded } from '../components/MeetingEnded'
@@ -108,6 +109,7 @@ export function RoomPage() {
             onToggleCamera={toggleCamera}
           />
           <CopyLinkButton url={roomLink} />
+          <QRInvite url={roomLink} />
           {joined ? (
             <Button
               disabled

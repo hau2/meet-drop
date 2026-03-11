@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'wouter'
 import { Video, LogIn } from 'lucide-react'
+import { QRScanner } from '../components/QRScanner'
 import { generateRoomId } from '../lib/room'
 import { useCallStore } from '../store'
 import { Button } from '@/components/ui/button'
@@ -75,6 +76,8 @@ export function HomePage() {
               Join
             </Button>
           </div>
+
+          <QRScanner onScan={(roomId) => setLocation(`/room/${roomId}`)} />
         </CardContent>
       </Card>
     </div>
