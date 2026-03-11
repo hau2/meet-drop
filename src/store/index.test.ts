@@ -25,4 +25,20 @@ describe('useCallStore', () => {
     useCallStore.getState().setConnectionState('connected')
     expect(Object.keys(localStorage).length).toBe(0)
   })
+
+  it('callEnded defaults to false, setCallEnded(true) updates it, reset() clears it back to false', () => {
+    expect(useCallStore.getState().callEnded).toBe(false)
+    useCallStore.getState().setCallEnded(true)
+    expect(useCallStore.getState().callEnded).toBe(true)
+    useCallStore.getState().reset()
+    expect(useCallStore.getState().callEnded).toBe(false)
+  })
+
+  it('wasConnected defaults to false, setWasConnected(true) updates it, reset() clears it back to false', () => {
+    expect(useCallStore.getState().wasConnected).toBe(false)
+    useCallStore.getState().setWasConnected(true)
+    expect(useCallStore.getState().wasConnected).toBe(true)
+    useCallStore.getState().reset()
+    expect(useCallStore.getState().wasConnected).toBe(false)
+  })
 })
