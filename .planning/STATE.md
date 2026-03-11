@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 02-02-PLAN.md — Phase 2 fully complete, human verification approved
-last_updated: "2026-03-11T00:48:59.166Z"
+stopped_at: Completed 03-01-PLAN.md
+last_updated: "2026-03-11T01:30:08.731Z"
 last_activity: "2026-03-11 — Phase 2 Media + Lobby complete: lobby UI, camera preview, mic/camera toggles, copy link, PiP self-view, responsive layout — human verification approved"
 progress:
   total_phases: 5
   completed_phases: 2
-  total_plans: 4
-  completed_plans: 4
+  total_plans: 6
+  completed_plans: 5
   percent: 50
 ---
 
@@ -55,6 +55,7 @@ Progress: [█████░░░░░] 50%
 | Phase 01-foundation P02 | 2 | 2 tasks | 7 files |
 | Phase 02-media-lobby P01 | 8 | 2 tasks | 6 files |
 | Phase 02-media-lobby P02 | 2 | 2 tasks | 8 files |
+| Phase 03-core-call P01 | 3 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -79,6 +80,9 @@ Recent decisions affecting current work:
 - [Phase 02-media-lobby]: meet-[0-9a-z]{6} regex in handleJoin extracts room IDs from both raw IDs and pasted full URLs
 - [Phase 02-media-lobby]: SelfViewOverlay placed inside video area div so absolute positioning is relative to video container not viewport
 - [Phase 02-media-lobby]: usePeer call preserved in RoomPage lobby so peer registers on signaling server before Phase 3 call connection
+- [Phase 03-core-call]: Web Audio singleton: AudioContext created once and reused across sound calls to avoid browser limits
+- [Phase 03-core-call]: wasConnected boolean distinguishes call-ended-after-connection from call-failed-to-connect for UX branching in Plan 02
+- [Phase 03-core-call]: useCallStore.getState().reset() called before setLocation() in MeetingEnded to prevent race where new room reads stale callEnded=true
 
 ### Pending Todos
 
@@ -92,6 +96,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11T00:43:14.201Z
-Stopped at: Completed 02-02-PLAN.md — Phase 2 fully complete, human verification approved
+Last session: 2026-03-11T01:30:08.729Z
+Stopped at: Completed 03-01-PLAN.md
 Resume file: None

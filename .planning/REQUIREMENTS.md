@@ -10,7 +10,7 @@
 - [x] **CONN-01**: User can create a meeting room with a unique readable ID (`meet-xxxxxx`)
 - [x] **CONN-02**: User can join a meeting via Room ID or full link
 - [x] **CONN-03**: User can copy the meeting link to clipboard with one click
-- [ ] **CONN-04**: User can see connection status (Connecting → Connected → Disconnected)
+- [x] **CONN-04**: User can see connection status (Connecting → Connected → Disconnected)
 
 ### Video & Audio
 
@@ -31,9 +31,9 @@
 ### UX & Polish
 
 - [x] **UX-01**: App layout is responsive and works on desktop and mobile browsers
-- [ ] **UX-02**: User sees a clear "Meeting Ended" screen when a call ends with options to create new or go home
+- [x] **UX-02**: User sees a clear "Meeting Ended" screen when a call ends with options to create new or go home
 - [ ] **UX-03**: App uses dark theme by default with a toggle to switch to light theme
-- [ ] **UX-04**: User hears a sound notification when a peer joins or leaves
+- [x] **UX-04**: User hears a sound notification when a peer joins or leaves
 - [ ] **UX-05**: User can see a network quality indicator (Good/Fair/Poor) during a call
 
 ## v2 Requirements
@@ -66,7 +66,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CONN-01 | Phase 2 | Complete |
 | CONN-02 | Phase 2 | Complete |
 | CONN-03 | Phase 2 | Complete |
-| CONN-04 | Phase 3 | Pending |
+| CONN-04 | Phase 3 | Complete |
 | AV-01 | Phase 3 | Pending |
 | AV-02 | Phase 2 | Complete |
 | AV-03 | Phase 2 | Complete |
@@ -78,9 +78,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CHAT-01 | Phase 4 | Pending |
 | PRIV-01 | Phase 1 | Complete |
 | UX-01 | Phase 2 | Complete |
-| UX-02 | Phase 3 | Pending |
+| UX-02 | Phase 3 | Complete |
 | UX-03 | Phase 5 | Pending |
-| UX-04 | Phase 3 | Pending |
+| UX-04 | Phase 3 | Complete |
 | UX-05 | Phase 5 | Pending |
 
 **Coverage:**
