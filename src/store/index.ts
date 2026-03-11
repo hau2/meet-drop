@@ -5,15 +5,23 @@ import type { ConnectionState } from '../types'
 interface CallStore {
   connectionState: ConnectionState
   peerId: string | null
+  isMicOn: boolean
+  isCameraOn: boolean
   setConnectionState: (state: ConnectionState) => void
   setPeerId: (id: string | null) => void
+  setMicOn: (on: boolean) => void
+  setCameraOn: (on: boolean) => void
   reset: () => void
 }
 
 export const useCallStore = create<CallStore>((set) => ({
   connectionState: 'idle',
   peerId: null,
+  isMicOn: true,
+  isCameraOn: true,
   setConnectionState: (connectionState) => set({ connectionState }),
   setPeerId: (peerId) => set({ peerId }),
-  reset: () => set({ connectionState: 'idle', peerId: null }),
+  setMicOn: (isMicOn) => set({ isMicOn }),
+  setCameraOn: (isCameraOn) => set({ isCameraOn }),
+  reset: () => set({ connectionState: 'idle', peerId: null, isMicOn: true, isCameraOn: true }),
 }))
