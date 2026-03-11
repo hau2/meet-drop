@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef } from 'react'
 import Peer from 'peerjs'
 import { useCallStore } from '../store'
 
@@ -36,7 +36,7 @@ export function usePeer(roomId: string) {
     }
 
     function initPeer(id?: string) {
-      const peer = id ? new Peer(id, peerOptions) : new Peer(peerOptions)
+      const peer = id ? new Peer(id, peerOptions) : new Peer(peerOptions as import('peerjs').PeerOptions)
 
       peer.on('open', (peerId) => {
         setPeerId(peerId)
