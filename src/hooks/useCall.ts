@@ -132,5 +132,5 @@ export function useCall(
     peerRef.current?.destroy()
   }, [setConnectionState, setCallEnded, peerRef])
 
-  return { remoteStreamRef, hangUp }
+  return { callRef, remoteStreamRef, hangUp }
 }
