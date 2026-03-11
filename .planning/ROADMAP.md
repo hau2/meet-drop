@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Project scaffold, routing, self-hosted PeerJS signaling, TURN server config, and zero-persistence architecture guarantee (completed 2026-03-10)
 - [x] **Phase 2: Media + Lobby** - Camera/mic acquisition, pre-join lobby, device toggles, self-preview, and meeting link sharing (completed 2026-03-11)
-- [ ] **Phase 3: Core Call** - Live 1-on-1 video/audio via PeerJS, connection status, clean disconnect screen, and join/leave sounds
+- [x] **Phase 3: Core Call** - Live 1-on-1 video/audio via PeerJS, connection status, clean disconnect screen, and join/leave sounds (completed 2026-03-11)
 - [ ] **Phase 4: Encrypted Chat** - End-to-end encrypted text chat over DataChannel using ECDH key exchange and AES-GCM
 - [ ] **Phase 5: Polish** - Screen sharing, fullscreen, draggable self-view, light theme toggle, and network quality indicator
 
@@ -60,7 +60,7 @@ Plans:
   2. The connection status label updates visibly: "Connecting" during ICE negotiation, "Connected" once media flows, "Disconnected" if the connection drops
   3. When either user ends the call or closes the tab, the other user sees a "Meeting Ended" screen with options to create a new room or return home — no silent black screen
   4. A sound notification plays when the remote peer joins the call and a different sound plays when they leave
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 Plans:
 - [ ] 03-01-PLAN.md — Store extension, sounds utility, ConnectionStatus badge, and MeetingEnded screen
 - [ ] 03-02-PLAN.md — useCall hook, CallView component, RoomPage integration, and human verification
@@ -96,7 +96,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete    | 2026-03-11 |
 | 2. Media + Lobby | 2/2 | Complete    | 2026-03-11 |
-| 3. Core Call | 1/2 | In Progress|  |
+| 3. Core Call | 2/2 | Complete   | 2026-03-11 |
 | 4. Encrypted Chat | 0/TBD | Not started | - |
 | 5. Polish | 0/TBD | Not started | - |
 

@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 03-01-PLAN.md
-last_updated: "2026-03-11T01:30:08.731Z"
+stopped_at: Completed 03-02-PLAN.md (awaiting Task 3 human verification)
+last_updated: "2026-03-11T01:34:59.289Z"
 last_activity: "2026-03-11 — Phase 2 Media + Lobby complete: lobby UI, camera preview, mic/camera toggles, copy link, PiP self-view, responsive layout — human verification approved"
 progress:
   total_phases: 5
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 6
-  completed_plans: 5
+  completed_plans: 6
   percent: 50
 ---
 
@@ -56,6 +56,7 @@ Progress: [█████░░░░░] 50%
 | Phase 02-media-lobby P01 | 8 | 2 tasks | 6 files |
 | Phase 02-media-lobby P02 | 2 | 2 tasks | 8 files |
 | Phase 03-core-call P01 | 3 | 2 tasks | 8 files |
+| Phase 03-core-call P02 | 5 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,9 @@ Recent decisions affecting current work:
 - [Phase 03-core-call]: Web Audio singleton: AudioContext created once and reused across sound calls to avoid browser limits
 - [Phase 03-core-call]: wasConnected boolean distinguishes call-ended-after-connection from call-failed-to-connect for UX branching in Plan 02
 - [Phase 03-core-call]: useCallStore.getState().reset() called before setLocation() in MeetingEnded to prevent race where new room reads stale callEnded=true
+- [Phase 03-core-call]: subscribeToCall() shared helper handles joiner and creator paths without duplicate event registration
+- [Phase 03-core-call]: useCallStore.getState() in close handler avoids stale closure when reading wasConnected at event fire time
+- [Phase 03-core-call]: Remote video element has no muted attribute — remote audio must play through for valid call UX
 
 ### Pending Todos
 
@@ -96,6 +100,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11T01:30:08.729Z
-Stopped at: Completed 03-01-PLAN.md
+Last session: 2026-03-11T01:34:59.287Z
+Stopped at: Completed 03-02-PLAN.md (awaiting Task 3 human verification)
 Resume file: None
