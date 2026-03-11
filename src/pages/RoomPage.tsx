@@ -3,6 +3,8 @@ import { usePeer } from '../hooks/usePeer'
 import { useMedia } from '../hooks/useMedia'
 import { useCall } from '../hooks/useCall'
 import { useChat } from '../hooks/useChat'
+import { useScreenShare } from '../hooks/useScreenShare'
+import { useNetworkQuality } from '../hooks/useNetworkQuality'
 import { useCallStore } from '../store'
 import { VideoPreview } from '../components/VideoPreview'
 import { MediaControls } from '../components/MediaControls'
@@ -34,8 +36,10 @@ export function RoomPage() {
   const { peerRef } = usePeer(id ?? '')
   const { streamRef, error, isLoading, toggleMic, toggleCamera } = useMedia()
   const { isMicOn, isCameraOn, connectionState, callEnded, joined, setJoined } = useCallStore()
-  const { remoteStreamRef, hangUp } = useCall(peerRef, streamRef, id ?? '')
+  const { callRef, remoteStreamRef, hangUp } = useCall(peerRef, streamRef, id ?? '')
   const { sendMessage, isReady } = useChat(peerRef, id ?? '')
+  const { isScreenSharing, startScreenShare, stopScreenShare } = useScreenShare(callRef, streamRef)
+  const networkQuality = useNetworkQuality(callRef, connectionState === 'connected')
 
   const roomLink = `${window.location.origin}${import.meta.env.BASE_URL.replace(/\/$/, '')}/#/room/${id}`
 
@@ -54,6 +58,9 @@ export function RoomPage() {
         toggleCamera={toggleCamera}
         sendMessage={sendMessage}
         isChatReady={isReady}
+        isScreenSharing={isScreenSharing}
+        onToggleScreenShare={isScreenSharing ? stopScreenShare : startScreenShare}
+        networkQuality={networkQuality}
       />
     )
   }

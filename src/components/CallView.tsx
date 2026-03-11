@@ -1,11 +1,13 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { RefObject } from 'react'
-import { Phone, MessageSquare } from 'lucide-react'
+import { Phone, MessageSquare, Monitor, MonitorOff, Maximize2, Minimize2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { MediaControls } from './MediaControls'
 import { SelfViewOverlay } from './SelfViewOverlay'
 import { ChatPanel } from './ChatPanel'
+import { NetworkQualityBadge } from './NetworkQualityBadge'
 import { useCallStore } from '../store'
+import type { NetworkQuality } from '../types'
 
 interface CallViewProps {
   remoteStreamRef: RefObject<MediaStream | null>
@@ -15,6 +17,9 @@ interface CallViewProps {
   toggleCamera: () => void
   sendMessage: (text: string) => Promise<void>
   isChatReady: boolean
+  isScreenSharing: boolean
+  onToggleScreenShare: () => void
+  networkQuality: NetworkQuality
 }
 
 export function CallView({
@@ -25,11 +30,16 @@ export function CallView({
   toggleCamera,
   sendMessage,
   isChatReady,
+  isScreenSharing,
+  onToggleScreenShare,
+  networkQuality,
 }: CallViewProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
   const remoteVideoRef = useRef<HTMLVideoElement>(null)
   const prevMessagesLengthRef = useRef(0)
   const unreadCountRef = useRef(0)
   const unreadDotRef = useRef<HTMLSpanElement>(null)
+  const [isFullscreen, setIsFullscreen] = useState(false)
 
   const { isMicOn, isCameraOn, isChatOpen, setChatOpen, messages } = useCallStore()
 
@@ -60,6 +70,26 @@ export function CallView({
     }
   }, [messages, isChatOpen])
 
+  // Sync fullscreen state with browser fullscreen events
+  useEffect(() => {
+    function handleFullscreenChange() {
+      setIsFullscreen(!!document.fullscreenElement)
+    }
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange)
+    }
+  }, [])
+
+  function toggleFullscreen() {
+    if (!document.fullscreenEnabled) return
+    if (!document.fullscreenElement) {
+      containerRef.current?.requestFullscreen()
+    } else {
+      document.exitFullscreen()
+    }
+  }
+
   function handleChatToggle() {
     if (!isChatOpen) {
       // Opening — reset unread count
@@ -72,7 +102,11 @@ export function CallView({
   }
 
   return (
-    <div data-testid="call-view" className="relative w-full h-screen bg-black overflow-hidden">
+    <div
+      ref={containerRef}
+      data-testid="call-view"
+      className="relative w-full h-screen bg-black overflow-hidden"
+    >
       {/* Remote video — NOT muted, audio plays through */}
       <video
         ref={remoteVideoRef}
@@ -80,6 +114,11 @@ export function CallView({
         playsInline
         className="w-full h-full object-cover"
       />
+
+      {/* Network quality badge — top-left */}
+      <div className="absolute top-4 left-4 z-20">
+        <NetworkQualityBadge quality={networkQuality} />
+      </div>
 
       {/* Self-view PiP overlay */}
       <SelfViewOverlay stream={localStreamRef.current} />
@@ -97,6 +136,36 @@ export function CallView({
           onToggleMic={toggleMic}
           onToggleCamera={toggleCamera}
         />
+
+        {/* Screen share button */}
+        <Button
+          onClick={onToggleScreenShare}
+          variant={isScreenSharing ? 'default' : 'secondary'}
+          size="lg"
+          aria-label={isScreenSharing ? 'Stop sharing' : 'Share screen'}
+          className="rounded-full"
+        >
+          {isScreenSharing ? (
+            <MonitorOff className="size-4" />
+          ) : (
+            <Monitor className="size-4" />
+          )}
+        </Button>
+
+        {/* Fullscreen button */}
+        <Button
+          onClick={toggleFullscreen}
+          variant="secondary"
+          size="lg"
+          aria-label="Toggle fullscreen"
+          className="rounded-full"
+        >
+          {isFullscreen ? (
+            <Minimize2 className="size-4" />
+          ) : (
+            <Maximize2 className="size-4" />
+          )}
+        </Button>
 
         {/* Chat toggle button with unread indicator */}
         <div className="relative">

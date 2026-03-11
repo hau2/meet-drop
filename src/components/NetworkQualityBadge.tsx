@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge'
-import type { NetworkQuality } from '../hooks/useNetworkQuality'
+import type { NetworkQuality } from '../types'
 
 interface NetworkQualityBadgeProps {
   quality: NetworkQuality

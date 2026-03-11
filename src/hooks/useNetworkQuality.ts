@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 import type { RefObject } from 'react'
 import type { MediaConnection } from 'peerjs'
+import type { NetworkQuality } from '../types'
 
-export type NetworkQuality = 'good' | 'fair' | 'poor' | null
+export type { NetworkQuality }
 
 export function useNetworkQuality(
   callRef: RefObject<MediaConnection | null>,
