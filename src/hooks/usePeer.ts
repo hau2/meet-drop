@@ -2,17 +2,26 @@ import { useEffect, useRef } from 'react'
 import Peer from 'peerjs'
 import { useCallStore } from '../store'
 
-const ICE_SERVERS = [
+const ICE_SERVERS: RTCIceServer[] = [
   { urls: 'stun:stun.cloudflare.com:3478' },
-  {
-    urls: [
-      'turn:openrelay.metered.ca:80',
-      'turn:openrelay.metered.ca:443',
-      'turn:openrelay.metered.ca:443?transport=tcp',
-    ],
-    username: import.meta.env.VITE_TURN_USERNAME,
-    credential: import.meta.env.VITE_TURN_CREDENTIAL,
-  },
+  { urls: 'stun:stun.l.google.com:19302' },
+  { urls: 'stun:stun1.l.google.com:19302' },
+  // TURN relay — required for peers behind symmetric NAT (different networks).
+  // Set VITE_TURN_HOST, VITE_TURN_USERNAME, VITE_TURN_CREDENTIAL to enable.
+  // Free option: sign up at https://www.metered.ca/stun-turn for 500GB/month.
+  ...(import.meta.env.VITE_TURN_USERNAME && import.meta.env.VITE_TURN_HOST
+    ? [
+        {
+          urls: [
+            `turn:${import.meta.env.VITE_TURN_HOST}:80`,
+            `turn:${import.meta.env.VITE_TURN_HOST}:443`,
+            `turn:${import.meta.env.VITE_TURN_HOST}:443?transport=tcp`,
+          ],
+          username: import.meta.env.VITE_TURN_USERNAME,
+          credential: import.meta.env.VITE_TURN_CREDENTIAL,
+        },
+      ]
+    : []),
 ]
 
 export function usePeer(roomId: string) {

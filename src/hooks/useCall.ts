@@ -53,7 +53,8 @@ export function useCall(
       const pc = call.peerConnection
       if (pc) {
         pc.oniceconnectionstatechange = () => {
-          if (pc.iceConnectionState === 'disconnected' || pc.iceConnectionState === 'failed') {
+          // Only end on 'failed' — 'disconnected' is transient and can recover
+          if (pc.iceConnectionState === 'failed') {
             handleRemoteHangUp()
           }
         }

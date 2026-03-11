@@ -156,7 +156,7 @@ export function useChat(
 
   const sendMessage = useCallback(
     async (text: string) => {
-      if (!sharedKeyRef.current || !connRef.current) return
+      if (!sharedKeyRef.current || !connRef.current || !connRef.current.open) return
       const encrypted = await encryptMessage(sharedKeyRef.current, text)
       connRef.current.send({ type: 'message', payload: encrypted })
       addMessage({ from: 'local', text, timestamp: Date.now() })
