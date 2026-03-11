@@ -74,7 +74,7 @@ Plans:
   2. Messages are encrypted with AES-GCM using a key derived via ECDH key exchange — the raw message text is never visible in a network capture (DevTools Network tab shows no plaintext)
   3. Each message uses a unique random IV — sending the same text twice produces different ciphertext
   4. When the tab closes, all chat history is gone — no messages persist in storage
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 Plans:
 - [ ] 04-01-PLAN.md — Crypto module (ECDH + AES-GCM), useChat hook, store extension, and types
 - [ ] 04-02-PLAN.md — ChatPanel UI, CallView integration, RoomPage wiring, and human verification
@@ -100,7 +100,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Foundation | 2/2 | Complete    | 2026-03-11 |
 | 2. Media + Lobby | 2/2 | Complete    | 2026-03-11 |
 | 3. Core Call | 2/2 | Complete    | 2026-03-11 |
-| 4. Encrypted Chat | 0/2 | Planning complete | - |
+| 4. Encrypted Chat | 1/2 | In Progress|  |
 | 5. Polish | 0/TBD | Not started | - |
 
 ---

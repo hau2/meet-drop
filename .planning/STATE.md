@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 03-02-PLAN.md — Phase 3 Core Call complete (human-verified)
-last_updated: "2026-03-11T03:02:30.213Z"
+stopped_at: Completed 04-01-PLAN.md — Phase 4 Plan 1 complete
+last_updated: "2026-03-11T03:40:01.590Z"
 last_activity: "2026-03-11 — Phase 2 Media + Lobby complete: lobby UI, camera preview, mic/camera toggles, copy link, PiP self-view, responsive layout — human verification approved"
 progress:
   total_phases: 5
   completed_phases: 3
-  total_plans: 6
-  completed_plans: 6
+  total_plans: 8
+  completed_plans: 7
   percent: 50
 ---
 
@@ -58,6 +58,7 @@ Progress: [█████░░░░░] 50%
 | Phase 03-core-call P01 | 3 | 2 tasks | 8 files |
 | Phase 03-core-call P02 | 5 | 2 tasks | 5 files |
 | Phase 03-core-call P02 | 45 | 3 tasks | 8 files |
+| Phase 04-encrypted-chat P01 | 4 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -92,6 +93,8 @@ Recent decisions affecting current work:
 - [Phase 03-core-call]: ICE connection state monitoring added alongside call.on('close') for reliable remote hang-up detection across NAT scenarios
 - [Phase 03-core-call]: joined boolean in store gates all call signaling — prevents auto-connecting before user clicks Join Meeting
 - [Phase 03-core-call]: npm run dev starts both Vite and local PeerJS server concurrently for zero-config local development
+- [Phase 04-encrypted-chat]: Uint8Array passed directly to subtle.importKey (not .buffer) — avoids jsdom/Node realm mismatch where Uint8Array.from().buffer is a jsdom-realm ArrayBuffer rejected by Node webcrypto
+- [Phase 04-encrypted-chat]: vi.clearAllMocks() clears mockResolvedValue implementations — must re-set crypto mock return values in beforeEach after clearAllMocks in useChat tests
 
 ### Pending Todos
 
@@ -105,6 +108,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11T02:58:49.194Z
-Stopped at: Completed 03-02-PLAN.md — Phase 3 Core Call complete (human-verified)
+Last session: 2026-03-11T03:40:01.588Z
+Stopped at: Completed 04-01-PLAN.md — Phase 4 Plan 1 complete
 Resume file: None
