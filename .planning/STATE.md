@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: "Checkpoint: Task 2 human-verify for 04-02-PLAN.md — awaiting two-browser encrypted chat verification"
-last_updated: "2026-03-11T03:44:26.185Z"
+stopped_at: Completed 04-02-PLAN.md — encrypted chat UI human-verified and approved
+last_updated: "2026-03-11T04:38:42.952Z"
 last_activity: "2026-03-11 — Phase 2 Media + Lobby complete: lobby UI, camera preview, mic/camera toggles, copy link, PiP self-view, responsive layout — human verification approved"
 progress:
   total_phases: 5
@@ -60,6 +60,7 @@ Progress: [█████░░░░░] 50%
 | Phase 03-core-call P02 | 45 | 3 tasks | 8 files |
 | Phase 04-encrypted-chat P01 | 4 | 2 tasks | 8 files |
 | Phase 04-encrypted-chat P02 | 3 | 1 tasks | 4 files |
+| Phase 04-encrypted-chat P02 | 15 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -98,6 +99,8 @@ Recent decisions affecting current work:
 - [Phase 04-encrypted-chat]: vi.clearAllMocks() clears mockResolvedValue implementations — must re-set crypto mock return values in beforeEach after clearAllMocks in useChat tests
 - [Phase 04-encrypted-chat]: Unread indicator uses DOM ref (unreadDotRef.style.display) not state to avoid re-render on every new message
 - [Phase 04-encrypted-chat]: ChatPanel onSend typed as (text: string) => void not Promise — keeps component synchronous and testable
+- [Phase 04-encrypted-chat]: Duplicate DataConnection handler bug (React Strict Mode double-mount) fixed by removing listeners in useEffect cleanup
+- [Phase 04-encrypted-chat]: ChatPanel onSend typed as (text: string) => void not Promise — keeps component synchronous and testable
 
 ### Pending Todos
 
@@ -111,6 +114,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11T03:44:26.183Z
-Stopped at: Checkpoint: Task 2 human-verify for 04-02-PLAN.md — awaiting two-browser encrypted chat verification
+Last session: 2026-03-11T04:38:42.950Z
+Stopped at: Completed 04-02-PLAN.md — encrypted chat UI human-verified and approved
 Resume file: None
