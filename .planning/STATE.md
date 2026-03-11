@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 02-01-PLAN.md — useMedia hook and VideoPreview component with 26 tests green
-last_updated: "2026-03-11T00:32:50.170Z"
+stopped_at: "Checkpoint: 02-02 Tasks 1-2 complete, awaiting human verification of lobby UI"
+last_updated: "2026-03-11T00:37:43.346Z"
 last_activity: 2026-03-11 — Roadmap created, 19/19 requirements mapped across 5 phases
 progress:
   total_phases: 5
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 4
-  completed_plans: 3
+  completed_plans: 4
   percent: 50
 ---
 
@@ -54,6 +54,7 @@ Progress: [█████░░░░░] 50%
 | Phase 01-foundation P02 | 2 minutes | 1 tasks | 7 files |
 | Phase 01-foundation P02 | 2 | 2 tasks | 7 files |
 | Phase 02-media-lobby P01 | 8 | 2 tasks | 6 files |
+| Phase 02-media-lobby P02 | 2 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -75,6 +76,9 @@ Recent decisions affecting current work:
 - [Phase 02-media-lobby]: useCallStore.getState() used inside toggleMic/toggleCamera callbacks — avoids stale closure bug when toggling rapidly
 - [Phase 02-media-lobby]: stream stored in useRef not useState — MediaStream in Zustand causes re-render loops (anti-pattern)
 - [Phase 02-media-lobby]: track.enabled for mute/unmute toggles; track.stop() only in useEffect cleanup to release hardware
+- [Phase 02-media-lobby]: meet-[0-9a-z]{6} regex in handleJoin extracts room IDs from both raw IDs and pasted full URLs
+- [Phase 02-media-lobby]: SelfViewOverlay placed inside video area div so absolute positioning is relative to video container not viewport
+- [Phase 02-media-lobby]: usePeer call preserved in RoomPage lobby so peer registers on signaling server before Phase 3 call connection
 
 ### Pending Todos
 
@@ -88,6 +92,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11T00:32:50.169Z
-Stopped at: Completed 02-01-PLAN.md — useMedia hook and VideoPreview component with 26 tests green
+Last session: 2026-03-11T00:37:43.344Z
+Stopped at: Checkpoint: 02-02 Tasks 1-2 complete, awaiting human verification of lobby UI
 Resume file: None

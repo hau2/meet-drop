@@ -7,9 +7,9 @@
 
 ### Connection & Rooms
 
-- [ ] **CONN-01**: User can create a meeting room with a unique readable ID (`meet-xxxxxx`)
-- [ ] **CONN-02**: User can join a meeting via Room ID or full link
-- [ ] **CONN-03**: User can copy the meeting link to clipboard with one click
+- [x] **CONN-01**: User can create a meeting room with a unique readable ID (`meet-xxxxxx`)
+- [x] **CONN-02**: User can join a meeting via Room ID or full link
+- [x] **CONN-03**: User can copy the meeting link to clipboard with one click
 - [ ] **CONN-04**: User can see connection status (Connecting → Connected → Disconnected)
 
 ### Video & Audio
@@ -18,7 +18,7 @@
 - [x] **AV-02**: User can toggle microphone on/off during a call
 - [x] **AV-03**: User can toggle camera on/off during a call
 - [x] **AV-04**: User can preview camera and mic in a lobby screen before joining
-- [ ] **AV-05**: User can see their own video as a small picture-in-picture overlay
+- [x] **AV-05**: User can see their own video as a small picture-in-picture overlay
 - [ ] **AV-06**: User can share their screen, replacing the camera track for the remote peer
 - [ ] **AV-07**: User can view remote video in fullscreen mode
 - [ ] **AV-08**: User can drag and reposition their self-view overlay
@@ -30,7 +30,7 @@
 
 ### UX & Polish
 
-- [ ] **UX-01**: App layout is responsive and works on desktop and mobile browsers
+- [x] **UX-01**: App layout is responsive and works on desktop and mobile browsers
 - [ ] **UX-02**: User sees a clear "Meeting Ended" screen when a call ends with options to create new or go home
 - [ ] **UX-03**: App uses dark theme by default with a toggle to switch to light theme
 - [ ] **UX-04**: User hears a sound notification when a peer joins or leaves
@@ -63,21 +63,21 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CONN-01 | Phase 2 | Pending |
-| CONN-02 | Phase 2 | Pending |
-| CONN-03 | Phase 2 | Pending |
+| CONN-01 | Phase 2 | Complete |
+| CONN-02 | Phase 2 | Complete |
+| CONN-03 | Phase 2 | Complete |
 | CONN-04 | Phase 3 | Pending |
 | AV-01 | Phase 3 | Pending |
 | AV-02 | Phase 2 | Complete |
 | AV-03 | Phase 2 | Complete |
 | AV-04 | Phase 2 | Complete |
-| AV-05 | Phase 2 | Pending |
+| AV-05 | Phase 2 | Complete |
 | AV-06 | Phase 5 | Pending |
 | AV-07 | Phase 5 | Pending |
 | AV-08 | Phase 5 | Pending |
 | CHAT-01 | Phase 4 | Pending |
 | PRIV-01 | Phase 1 | Complete |
-| UX-01 | Phase 2 | Pending |
+| UX-01 | Phase 2 | Complete |
 | UX-02 | Phase 3 | Pending |
 | UX-03 | Phase 5 | Pending |
 | UX-04 | Phase 3 | Pending |
