@@ -96,7 +96,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete    | 2026-03-11 |
 | 2. Media + Lobby | 2/2 | Complete    | 2026-03-11 |
-| 3. Core Call | 2/2 | Complete   | 2026-03-11 |
+| 3. Core Call | 2/2 | Complete    | 2026-03-11 |
 | 4. Encrypted Chat | 0/TBD | Not started | - |
 | 5. Polish | 0/TBD | Not started | - |
 
