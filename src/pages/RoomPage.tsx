@@ -2,6 +2,7 @@ import { useParams } from 'wouter'
 import { usePeer } from '../hooks/usePeer'
 import { useMedia } from '../hooks/useMedia'
 import { useCall } from '../hooks/useCall'
+import { useChat } from '../hooks/useChat'
 import { useCallStore } from '../store'
 import { VideoPreview } from '../components/VideoPreview'
 import { MediaControls } from '../components/MediaControls'
@@ -34,6 +35,7 @@ export function RoomPage() {
   const { streamRef, error, isLoading, toggleMic, toggleCamera } = useMedia()
   const { isMicOn, isCameraOn, connectionState, callEnded, joined, setJoined } = useCallStore()
   const { remoteStreamRef, hangUp } = useCall(peerRef, streamRef, id ?? '')
+  const { sendMessage, isReady } = useChat(peerRef, id ?? '')
 
   const roomLink = `${window.location.origin}${import.meta.env.BASE_URL.replace(/\/$/, '')}/#/room/${id}`
 
@@ -50,6 +52,8 @@ export function RoomPage() {
         onHangUp={hangUp}
         toggleMic={toggleMic}
         toggleCamera={toggleCamera}
+        sendMessage={sendMessage}
+        isChatReady={isReady}
       />
     )
   }
