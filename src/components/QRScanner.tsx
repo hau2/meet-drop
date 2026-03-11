@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Html5Qrcode } from 'html5-qrcode'
 import { ScanLine, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -11,42 +11,53 @@ export function QRScanner({ onScan }: QRScannerProps) {
   const [scanning, setScanning] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const scannerRef = useRef<Html5Qrcode | null>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    return () => {
-      // Cleanup on unmount
-      scannerRef.current?.stop().catch(() => {})
-    }
-  }, [])
-
-  async function startScanning() {
-    setError(null)
-    setScanning(true)
-
+  const startScanner = useCallback(async () => {
     try {
       const scanner = new Html5Qrcode('qr-reader')
       scannerRef.current = scanner
 
-      await scanner.start(
-        { facingMode: 'environment' },
-        { fps: 10, qrbox: { width: 200, height: 200 } },
-        (decodedText) => {
-          // Extract room ID from URL
-          const match = decodedText.match(/meet-[0-9a-z]{6}/)
-          if (match) {
-            scanner.stop().catch(() => {})
-            scannerRef.current = null
-            setScanning(false)
-            onScan(match[0])
-          }
-        },
-        () => {} // ignore scan failures (no QR in frame)
-      )
+      const scanConfig = { fps: 10, qrbox: { width: 200, height: 200 } }
+      const onSuccess = (decodedText: string) => {
+        const match = decodedText.match(/meet-[0-9a-z]{6}/)
+        if (match) {
+          scanner.stop().catch(() => {})
+          scannerRef.current = null
+          setScanning(false)
+          onScan(match[0])
+        }
+      }
+      const onFailure = () => {} // ignore scan failures (no QR in frame)
+
+      try {
+        // Try rear camera first (mobile)
+        await scanner.start({ facingMode: 'environment' }, scanConfig, onSuccess, onFailure)
+      } catch {
+        // Fall back to any available camera (desktop/laptop)
+        await scanner.start({ facingMode: 'user' }, scanConfig, onSuccess, onFailure)
+      }
     } catch {
       setScanning(false)
       setError('Could not access camera. Please allow camera access.')
     }
+  }, [onScan])
+
+  // Start scanner after the #qr-reader div has rendered
+  useEffect(() => {
+    if (scanning) {
+      startScanner()
+    }
+  }, [scanning, startScanner])
+
+  useEffect(() => {
+    return () => {
+      scannerRef.current?.stop().catch(() => {})
+    }
+  }, [])
+
+  function handleStartClick() {
+    setError(null)
+    setScanning(true)
   }
 
   async function stopScanning() {
@@ -59,7 +70,7 @@ export function QRScanner({ onScan }: QRScannerProps) {
     return (
       <div className="space-y-1">
         <Button
-          onClick={startScanning}
+          onClick={handleStartClick}
           variant="outline"
           size="lg"
           className="w-full"
@@ -84,7 +95,7 @@ export function QRScanner({ onScan }: QRScannerProps) {
         >
           <X className="size-4" />
         </button>
-        <div id="qr-reader" ref={containerRef} className="w-full" />
+        <div id="qr-reader" className="w-full" />
       </div>
       <p className="text-xs text-center text-muted-foreground">
         Point your camera at a meeting QR code

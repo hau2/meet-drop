@@ -80,6 +80,18 @@ export function HomePage() {
           <QRScanner onScan={(roomId) => setLocation(`/room/${roomId}`)} />
         </CardContent>
       </Card>
+
+      <footer className="mt-8 text-center text-xs text-muted-foreground">
+        <p>
+          Built by{' '}
+          <a
+            href="mailto:leconghau095@gmail.com"
+            className="underline underline-offset-2 hover:text-foreground transition-colors"
+          >
+            Le Cong Hau
+          </a>
+        </p>
+      </footer>
     </div>
   )
 }
