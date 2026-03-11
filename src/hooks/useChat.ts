@@ -24,6 +24,7 @@ export function useChat(
   const keyPairRef = useRef<CryptoKeyPair | null>(null)
   const sharedKeyRef = useRef<CryptoKey | null>(null)
   const pendingMessages = useRef<string[]>([])
+  const setupIdRef = useRef(0)
 
   const [isReady, setIsReady] = useState(false)
 
@@ -37,13 +38,17 @@ export function useChat(
         connRef.current.removeAllListeners()
         connRef.current.close()
       }
+      // Increment setup counter — stale async callbacks from previous connections bail out
+      const mySetupId = ++setupIdRef.current
       connRef.current = conn
 
       const handleOpen = async () => {
         // Generate keypair and immediately send public key to peer
         const kp = await generateKeyPair()
+        if (setupIdRef.current !== mySetupId) return // stale setup
         keyPairRef.current = kp
         const exportedPub = await exportPublicKey(kp.publicKey)
+        if (setupIdRef.current !== mySetupId) return // stale setup
         conn.send({ type: 'key-exchange', key: exportedPub })
       }
 
@@ -55,14 +60,17 @@ export function useChat(
       }
 
       conn.on('data', async (raw: unknown) => {
+        if (setupIdRef.current !== mySetupId) return // stale connection
         const msg = raw as DataMessage
 
         if (msg.type === 'key-exchange' && msg.key && keyPairRef.current) {
           const peerPub = await importPublicKey(msg.key)
+          if (setupIdRef.current !== mySetupId) return
           sharedKeyRef.current = await deriveSharedKey(
             keyPairRef.current.privateKey,
             peerPub
           )
+          if (setupIdRef.current !== mySetupId) return
           // Flush messages that arrived before key exchange completed
           for (const payload of pendingMessages.current) {
             const text = await decryptMessage(sharedKeyRef.current, payload)
@@ -81,6 +89,7 @@ export function useChat(
           }
           try {
             const text = await decryptMessage(sharedKeyRef.current, msg.payload)
+            if (setupIdRef.current !== mySetupId) return
             addMessage({ from: 'remote', text, timestamp: Date.now() })
           } catch {
             // Decryption failed — stale connection with mismatched key, ignore
@@ -89,6 +98,7 @@ export function useChat(
       })
 
       conn.on('close', () => {
+        if (setupIdRef.current !== mySetupId) return
         sharedKeyRef.current = null
         connRef.current = null
         keyPairRef.current = null
