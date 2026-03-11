@@ -60,7 +60,10 @@ Plans:
   2. The connection status label updates visibly: "Connecting" during ICE negotiation, "Connected" once media flows, "Disconnected" if the connection drops
   3. When either user ends the call or closes the tab, the other user sees a "Meeting Ended" screen with options to create a new room or return home — no silent black screen
   4. A sound notification plays when the remote peer joins the call and a different sound plays when they leave
-**Plans**: TBD
+**Plans:** 2 plans
+Plans:
+- [ ] 03-01-PLAN.md — Store extension, sounds utility, ConnectionStatus badge, and MeetingEnded screen
+- [ ] 03-02-PLAN.md — useCall hook, CallView component, RoomPage integration, and human verification
 
 ### Phase 4: Encrypted Chat
 **Goal**: Users in an active call can exchange text messages that are end-to-end encrypted — no message content travels unencrypted over any network path
@@ -93,7 +96,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete    | 2026-03-11 |
 | 2. Media + Lobby | 2/2 | Complete    | 2026-03-11 |
-| 3. Core Call | 0/TBD | Not started | - |
+| 3. Core Call | 0/2 | In progress | - |
 | 4. Encrypted Chat | 0/TBD | Not started | - |
 | 5. Polish | 0/TBD | Not started | - |
 
