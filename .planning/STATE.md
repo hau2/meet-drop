@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 03-02-PLAN.md (awaiting Task 3 human verification)
-last_updated: "2026-03-11T01:34:59.289Z"
+stopped_at: Completed 03-02-PLAN.md — Phase 3 Core Call complete (human-verified)
+last_updated: "2026-03-11T02:58:49.200Z"
 last_activity: "2026-03-11 — Phase 2 Media + Lobby complete: lobby UI, camera preview, mic/camera toggles, copy link, PiP self-view, responsive layout — human verification approved"
 progress:
   total_phases: 5
@@ -57,6 +57,7 @@ Progress: [█████░░░░░] 50%
 | Phase 02-media-lobby P02 | 2 | 2 tasks | 8 files |
 | Phase 03-core-call P01 | 3 | 2 tasks | 8 files |
 | Phase 03-core-call P02 | 5 | 2 tasks | 5 files |
+| Phase 03-core-call P02 | 45 | 3 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -87,6 +88,10 @@ Recent decisions affecting current work:
 - [Phase 03-core-call]: subscribeToCall() shared helper handles joiner and creator paths without duplicate event registration
 - [Phase 03-core-call]: useCallStore.getState() in close handler avoids stale closure when reading wasConnected at event fire time
 - [Phase 03-core-call]: Remote video element has no muted attribute — remote audio must play through for valid call UX
+- [Phase 03-core-call]: usePeer joiner fallback: creator registers with peerId=roomId; unavailable-id error signals joiner role — reconnects with random ID
+- [Phase 03-core-call]: ICE connection state monitoring added alongside call.on('close') for reliable remote hang-up detection across NAT scenarios
+- [Phase 03-core-call]: joined boolean in store gates all call signaling — prevents auto-connecting before user clicks Join Meeting
+- [Phase 03-core-call]: npm run dev starts both Vite and local PeerJS server concurrently for zero-config local development
 
 ### Pending Todos
 
@@ -100,6 +105,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11T01:34:59.287Z
-Stopped at: Completed 03-02-PLAN.md (awaiting Task 3 human verification)
+Last session: 2026-03-11T02:58:49.194Z
+Stopped at: Completed 03-02-PLAN.md — Phase 3 Core Call complete (human-verified)
 Resume file: None
