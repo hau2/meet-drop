@@ -30,10 +30,12 @@ decisions:
   - "dual useEffect for Peer lifecycle vs beforeunload — keeps concerns separated and avoids stale closure issues"
   - ".env.production force-committed with placeholder values only — gitignored to prevent real secret commits"
   - "cleanupRef added to hold beforeunload handler reference — ensures same function instance is removed on unmount"
+requirements-completed: [PRIV-01]
+
 metrics:
   duration: "2 minutes"
   completed: "2026-03-11"
-  tasks_completed: 1
+  tasks_completed: 2
   files_created: 5
   files_modified: 2
 ---
@@ -60,7 +62,7 @@ The complete PeerJS lifecycle infrastructure:
 |------|------|--------|-----------|
 | 1 (TDD-RED) | Failing tests for usePeer hook | 16b70a8 | src/hooks/usePeer.test.ts |
 | 1 (TDD-GREEN) | usePeer implementation + env files + page updates | f0cdf94 | src/hooks/usePeer.ts, .env.*, RoomPage.tsx, HomePage.tsx |
-| 2 | Human verification checkpoint | PENDING | - |
+| 2 | Human verification checkpoint | APPROVED | Browser: app loads, zero storage, no Strict Mode errors, 12 tests pass |
 
 ## Decisions Made
 
@@ -98,8 +100,41 @@ The `.gitignore` excludes `.env.production` by default to prevent real credentia
 | peer.destroy() called on cleanup | PASS (verified by test) |
 | .env.development exists with Metered Open Relay | PASS |
 | .env.production exists with placeholders | PASS |
-| Browser verification (RoomPage, clean storage) | PENDING (Task 2 checkpoint) |
+| Browser: app loads at /#/ and /#/room/:id | PASS (human verified) |
+| Browser: localStorage empty | PASS (human verified) |
+| Browser: sessionStorage empty | PASS (human verified) |
+| Browser: IndexedDB empty | PASS (human verified) |
+| Browser: Cookies empty | PASS (human verified) |
+| Browser: no "ID taken" Strict Mode errors | PASS (human verified) |
+
+## User Setup Required
+
+**External services require manual configuration before production deployment:**
+
+- **Railway PeerJS server:** Deploy `peerjs-server` to Railway, set `VITE_PEERJS_HOST` in `.env.production`
+  - Location: Railway Dashboard → New Project → Deploy from GitHub (peerjs-server)
+- **Cloudflare TURN:** Cloudflare Dashboard → Realtime → TURN → Create TURN key
+  - Set `VITE_TURN_USERNAME` and `VITE_TURN_CREDENTIAL` in `.env.production`
+
+Development works with zero setup — `.env.development` uses Metered Open Relay (openrelayproject credentials).
+
+## Next Phase Readiness
+
+Phase 1 foundation is complete. Phase 2 (video) can build directly on:
+- `usePeer(roomId)` hook — PeerJS singleton lifecycle with TURN config
+- `useCallStore` — connection state (idle/connecting/connected/disconnected/failed) and peerId
+- `useRef` pattern established for all WebRTC objects (peerRef, connectionRef pattern)
+- `ConnectionState` type in `src/types/index.ts`
+- All 12 tests passing, zero TypeScript errors, zero storage persistence
+
+Blockers before production launch (not blocking Phase 2-4 dev work):
+- Railway PeerJS server deployment
+- Cloudflare TURN credentials in `.env.production`
+
+---
+*Phase: 01-foundation*
+*Completed: 2026-03-11*
 
 ## Self-Check: PASSED
 
-All 5 created files verified present. Task commits 16b70a8 (RED) and f0cdf94 (GREEN) confirmed in git log.
+All 5 created files verified present. Task commits 16b70a8 (RED) and f0cdf94 (GREEN) confirmed in git log. Human verification confirmed app correctness and zero-storage persistence.
