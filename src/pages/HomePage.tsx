@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'wouter'
 import { generateRoomId } from '../lib/room'
 import { useCallStore } from '../store'
@@ -6,6 +6,7 @@ import { useCallStore } from '../store'
 export function HomePage() {
   const [, setLocation] = useLocation()
   const { reset } = useCallStore()
+  const [joinId, setJoinId] = useState('')
 
   // Reset store on mount — clears any stale state when navigating back home (PRIV-01 defense in depth)
   useEffect(() => {
@@ -15,6 +16,12 @@ export function HomePage() {
   function handleCreateMeeting() {
     const id = generateRoomId()
     setLocation(`/room/${id}`)
+  }
+
+  function handleJoin() {
+    const match = joinId.match(/meet-[0-9a-z]{6}/)
+    if (!match) return
+    setLocation(`/room/${match[0]}`)
   }
 
   return (
@@ -27,6 +34,21 @@ export function HomePage() {
       >
         Create Meeting
       </button>
+      <div className="flex gap-2 mt-4">
+        <input
+          type="text"
+          placeholder="Enter Room ID (meet-xxxxxx)"
+          value={joinId}
+          onChange={(e) => setJoinId(e.target.value)}
+          className="bg-zinc-800 text-white px-4 py-2 rounded-lg border border-zinc-700 focus:outline-none focus:border-zinc-500 w-72"
+        />
+        <button
+          onClick={handleJoin}
+          className="bg-zinc-700 text-white px-4 py-2 rounded-lg hover:bg-zinc-600 transition-colors"
+        >
+          Join
+        </button>
+      </div>
     </div>
   )
 }
