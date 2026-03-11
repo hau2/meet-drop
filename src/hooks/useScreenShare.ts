@@ -15,9 +15,9 @@ export function useScreenShare(
     displayTrackRef.current = null
 
     // Restore the camera track via replaceTrack
-    const pc = callRef.current?.peerConnection
+    const pc = (callRef.current as any)?.peerConnection as RTCPeerConnection | undefined
     if (pc) {
-      const sender = pc.getSenders().find((s) => s.track?.kind === 'video')
+      const sender = pc.getSenders().find((s) => s.track?.kind === 'video' || !s.track)
       const cameraTrack = streamRef.current?.getVideoTracks()[0]
       if (sender && cameraTrack) {
         await sender.replaceTrack(cameraTrack)
@@ -28,6 +28,11 @@ export function useScreenShare(
   }, [callRef, streamRef])
 
   const startScreenShare = useCallback(async () => {
+    if (!navigator.mediaDevices?.getDisplayMedia) {
+      console.error('Screen sharing is not supported in this browser')
+      return
+    }
+
     try {
       const displayStream = await navigator.mediaDevices.getDisplayMedia({
         video: true,
@@ -36,13 +41,23 @@ export function useScreenShare(
 
       const displayTrack = displayStream.getVideoTracks()[0]
 
-      const pc = callRef.current?.peerConnection
-      if (pc) {
-        const sender = pc.getSenders().find((s) => s.track?.kind === 'video')
-        if (sender) {
-          await sender.replaceTrack(displayTrack)
-        }
+      // Access peerConnection — use `as any` to bypass PeerJS type narrowing
+      const pc = (callRef.current as any)?.peerConnection as RTCPeerConnection | undefined
+      if (!pc) {
+        console.error('No peer connection available for screen share')
+        displayTrack.stop()
+        return
       }
+
+      // Find video sender — also match senders with null track (camera off)
+      const sender = pc.getSenders().find((s) => s.track?.kind === 'video' || !s.track)
+      if (!sender) {
+        console.error('No video sender found for screen share')
+        displayTrack.stop()
+        return
+      }
+
+      await sender.replaceTrack(displayTrack)
 
       displayTrackRef.current = displayTrack
       setIsScreenSharing(true)
@@ -54,7 +69,7 @@ export function useScreenShare(
       if (err instanceof DOMException && err.name === 'NotAllowedError') {
         return
       }
-      throw err
+      console.error('Screen share error:', err)
     }
   }, [callRef, stopScreenShare])
 
