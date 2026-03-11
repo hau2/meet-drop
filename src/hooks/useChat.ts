@@ -32,6 +32,11 @@ export function useChat(
 
   const setupConnection = useCallback(
     (conn: DataConnection) => {
+      // Guard: close any existing connection to prevent duplicate handlers
+      if (connRef.current) {
+        connRef.current.removeAllListeners()
+        connRef.current.close()
+      }
       connRef.current = conn
 
       const handleOpen = async () => {
@@ -74,8 +79,12 @@ export function useChat(
             pendingMessages.current.push(msg.payload)
             return
           }
-          const text = await decryptMessage(sharedKeyRef.current, msg.payload)
-          addMessage({ from: 'remote', text, timestamp: Date.now() })
+          try {
+            const text = await decryptMessage(sharedKeyRef.current, msg.payload)
+            addMessage({ from: 'remote', text, timestamp: Date.now() })
+          } catch {
+            // Decryption failed — stale connection with mismatched key, ignore
+          }
         }
       })
 
@@ -110,8 +119,13 @@ export function useChat(
 
       return () => {
         peer.off('connection', handler)
-        connRef.current?.close()
+        if (connRef.current) {
+          connRef.current.removeAllListeners()
+          connRef.current.close()
+        }
         connRef.current = null
+        sharedKeyRef.current = null
+        keyPairRef.current = null
       }
     } else {
       // Joiner initiates DataConnection to creator
@@ -119,8 +133,13 @@ export function useChat(
       setupConnection(conn)
 
       return () => {
-        connRef.current?.close()
+        if (connRef.current) {
+          connRef.current.removeAllListeners()
+          connRef.current.close()
+        }
         connRef.current = null
+        sharedKeyRef.current = null
+        keyPairRef.current = null
       }
     }
   }, [roomId, peerId]) // eslint-disable-line react-hooks/exhaustive-deps

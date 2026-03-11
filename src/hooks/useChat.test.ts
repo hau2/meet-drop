@@ -21,6 +21,7 @@ vi.mock('peerjs', () => {
     on: vi.fn().mockReturnThis(),
     send: vi.fn(),
     close: vi.fn(),
+    removeAllListeners: vi.fn(),
     open: false,
   }
 
@@ -64,7 +65,7 @@ function captureHandlers(mockOnFn: ReturnType<typeof vi.fn>) {
   const handlers: Record<string, (...args: unknown[]) => void> = {}
   mockOnFn.mockImplementation((event: string, handler: (...args: unknown[]) => void) => {
     handlers[event] = handler
-    return { on: mockOnFn, send: vi.fn(), close: vi.fn(), open: false }
+    return { on: mockOnFn, send: vi.fn(), close: vi.fn(), removeAllListeners: vi.fn(), open: false }
   })
   return handlers
 }
@@ -99,6 +100,7 @@ describe('useChat', () => {
     mockConn.on = vi.fn().mockReturnThis()
     mockConn.send = vi.fn()
     mockConn.close = vi.fn()
+    mockConn.removeAllListeners = vi.fn()
     mockConn.open = false
 
     ;(Peer as unknown as ReturnType<typeof vi.fn>).mockImplementation(() => inst)
@@ -287,6 +289,7 @@ describe('useChat', () => {
         on: vi.fn().mockReturnThis(),
         send: vi.fn(),
         close: vi.fn(),
+        removeAllListeners: vi.fn(),
         open: false,
       }
 
