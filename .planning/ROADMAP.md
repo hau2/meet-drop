@@ -89,7 +89,7 @@ Plans:
   3. User can drag their self-view overlay to any corner of the call window and it stays there for the session
   4. App renders in dark theme by default; user can toggle to light theme; the preference persists for the session
   5. A network quality badge (Good / Fair / Poor) is visible during the call and updates in real time based on RTCPeerConnection stats
-**Plans:** 1/3 plans executed
+**Plans:** 2/3 plans executed
 Plans:
 - [ ] 05-01-PLAN.md — Dark/light theme toggle and draggable corner-snap self-view overlay
 - [ ] 05-02-PLAN.md — Screen share hook with replaceTrack and network quality hook with getStats polling
@@ -106,7 +106,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Media + Lobby | 2/2 | Complete    | 2026-03-11 |
 | 3. Core Call | 2/2 | Complete    | 2026-03-11 |
 | 4. Encrypted Chat | 2/2 | Complete    | 2026-03-11 |
-| 5. Polish | 1/3 | In Progress|  |
+| 5. Polish | 2/3 | In Progress|  |
 
 ---
 *Roadmap created: 2026-03-11*

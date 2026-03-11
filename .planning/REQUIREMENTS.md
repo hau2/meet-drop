@@ -21,7 +21,7 @@
 - [x] **AV-05**: User can see their own video as a small picture-in-picture overlay
 - [x] **AV-06**: User can share their screen, replacing the camera track for the remote peer
 - [ ] **AV-07**: User can view remote video in fullscreen mode
-- [ ] **AV-08**: User can drag and reposition their self-view overlay
+- [x] **AV-08**: User can drag and reposition their self-view overlay
 
 ### Chat & Privacy
 
@@ -32,7 +32,7 @@
 
 - [x] **UX-01**: App layout is responsive and works on desktop and mobile browsers
 - [x] **UX-02**: User sees a clear "Meeting Ended" screen when a call ends with options to create new or go home
-- [ ] **UX-03**: App uses dark theme by default with a toggle to switch to light theme
+- [x] **UX-03**: App uses dark theme by default with a toggle to switch to light theme
 - [x] **UX-04**: User hears a sound notification when a peer joins or leaves
 - [x] **UX-05**: User can see a network quality indicator (Good/Fair/Poor) during a call
 
@@ -74,12 +74,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AV-05 | Phase 2 | Complete |
 | AV-06 | Phase 5 | Complete |
 | AV-07 | Phase 5 | Pending |
-| AV-08 | Phase 5 | Pending |
+| AV-08 | Phase 5 | Complete |
 | CHAT-01 | Phase 4 | Complete |
 | PRIV-01 | Phase 1 | Complete |
 | UX-01 | Phase 2 | Complete |
 | UX-02 | Phase 3 | Complete |
-| UX-03 | Phase 5 | Pending |
+| UX-03 | Phase 5 | Complete |
 | UX-04 | Phase 3 | Complete |
 | UX-05 | Phase 5 | Complete |
 

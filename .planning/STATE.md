@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 05-02-PLAN.md — screen share hook, network quality hook, and badge component
-last_updated: "2026-03-11T10:19:41.187Z"
+stopped_at: Completed 05-01-PLAN.md — dark/light theme toggle and draggable self-view overlay
+last_updated: "2026-03-11T10:23:45.412Z"
 last_activity: "2026-03-11 — Phase 2 Media + Lobby complete: lobby UI, camera preview, mic/camera toggles, copy link, PiP self-view, responsive layout — human verification approved"
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 11
-  completed_plans: 9
+  completed_plans: 10
   percent: 50
 ---
 
@@ -62,6 +62,7 @@ Progress: [█████░░░░░] 50%
 | Phase 04-encrypted-chat P02 | 3 | 1 tasks | 4 files |
 | Phase 04-encrypted-chat P02 | 15 | 2 tasks | 5 files |
 | Phase 05-polish P02 | 3 | 2 tasks | 7 files |
+| Phase 05-polish P01 | 7 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -105,6 +106,9 @@ Recent decisions affecting current work:
 - [Phase 05-polish]: displayTrackRef stored in useRef not useState for screen share track — avoids re-render on track assignment
 - [Phase 05-polish]: callRef exposed from useCall return value — minimal change enabling useScreenShare and useNetworkQuality access to peerConnection
 - [Phase 05-polish]: useNetworkQuality uses delta nackCount/packetsSent across intervals for accurate packet loss ratio, not cumulative totals
+- [Phase 05-polish]: useRef used as drag guard in pointer handlers to avoid stale closure where React state update from pointerDown not visible in pointerMove before re-render
+- [Phase 05-polish]: Synchronous dark class init in main.tsx before createRoot prevents flash of wrong theme; sessionStorage is persistence layer (PRIV-01 compatible, no localStorage)
+- [Phase 05-polish]: SelfViewOverlay tests use new MouseEvent('pointerX') not fireEvent.pointerDown because jsdom PointerEvent does not support clientX/Y init
 
 ### Pending Todos
 
@@ -118,6 +122,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11T10:19:41.185Z
-Stopped at: Completed 05-02-PLAN.md — screen share hook, network quality hook, and badge component
+Last session: 2026-03-11T10:23:45.411Z
+Stopped at: Completed 05-01-PLAN.md — dark/light theme toggle and draggable self-view overlay
 Resume file: None
