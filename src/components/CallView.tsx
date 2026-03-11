@@ -11,6 +11,8 @@ import type { NetworkQuality } from '../types'
 
 interface CallViewProps {
   remoteStreamRef: RefObject<MediaStream | null>
+  remoteScreenStreamRef: RefObject<MediaStream | null>
+  isRemoteScreenSharing: boolean
   localStreamRef: RefObject<MediaStream | null>
   onHangUp: () => void
   toggleMic: () => void
@@ -24,6 +26,8 @@ interface CallViewProps {
 
 export function CallView({
   remoteStreamRef,
+  remoteScreenStreamRef,
+  isRemoteScreenSharing,
   localStreamRef,
   onHangUp,
   toggleMic,
@@ -36,6 +40,8 @@ export function CallView({
 }: CallViewProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const remoteVideoRef = useRef<HTMLVideoElement>(null)
+  const remoteScreenVideoRef = useRef<HTMLVideoElement>(null)
+  const remoteCameraPipRef = useRef<HTMLVideoElement>(null)
   const prevMessagesLengthRef = useRef(0)
   const unreadCountRef = useRef(0)
   const unreadDotRef = useRef<HTMLSpanElement>(null)
@@ -50,6 +56,22 @@ export function CallView({
       video.srcObject = remoteStreamRef.current
     }
   }, [remoteStreamRef])
+
+  // Attach remote screen share stream
+  useEffect(() => {
+    const video = remoteScreenVideoRef.current
+    if (video && remoteScreenStreamRef.current) {
+      video.srcObject = remoteScreenStreamRef.current
+    }
+  }, [remoteScreenStreamRef, isRemoteScreenSharing])
+
+  // Attach remote camera to PiP when screen sharing
+  useEffect(() => {
+    const video = remoteCameraPipRef.current
+    if (video && remoteStreamRef.current && isRemoteScreenSharing) {
+      video.srcObject = remoteStreamRef.current
+    }
+  }, [remoteStreamRef, isRemoteScreenSharing])
 
   // Track unread remote messages when chat is closed
   useEffect(() => {
@@ -112,8 +134,30 @@ export function CallView({
         ref={remoteVideoRef}
         autoPlay
         playsInline
-        className="w-full h-full object-cover"
+        className={`w-full h-full object-cover ${isRemoteScreenSharing ? 'hidden' : ''}`}
       />
+
+      {/* Remote screen share — shown as main when active */}
+      {isRemoteScreenSharing && (
+        <video
+          ref={remoteScreenVideoRef}
+          autoPlay
+          playsInline
+          className="w-full h-full object-contain bg-black"
+        />
+      )}
+
+      {/* Remote camera PiP — shown when remote is screen sharing */}
+      {isRemoteScreenSharing && (
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-48 md:w-64 aspect-video rounded-lg overflow-hidden shadow-lg ring-1 ring-white/20 z-20">
+          <video
+            ref={remoteCameraPipRef}
+            autoPlay
+            playsInline
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
 
       {/* Network quality badge — top-left */}
       <div className="absolute top-4 left-4 z-20">

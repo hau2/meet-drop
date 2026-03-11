@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
-import { useRef } from 'react'
 import { useScreenShare } from './useScreenShare'
 
 // Fake display track and stream
@@ -12,40 +11,27 @@ function makeFakeDisplayTrack() {
   }
 }
 
-function makeFakeCameraTrack() {
-  return {
-    kind: 'video',
-    stop: vi.fn(),
-    onended: null as (() => void) | null,
-  }
-}
-
-function makeFakeSender(track: unknown) {
-  return {
-    track,
-    replaceTrack: vi.fn().mockResolvedValue(undefined),
-  }
-}
-
 describe('useScreenShare', () => {
   let fakeDisplayTrack: ReturnType<typeof makeFakeDisplayTrack>
-  let fakeCameraTrack: ReturnType<typeof makeFakeCameraTrack>
-  let fakeSender: ReturnType<typeof makeFakeSender>
-  let fakePeerConnection: { getSenders: ReturnType<typeof vi.fn> }
-  let fakeCall: { peerConnection: typeof fakePeerConnection }
+  let fakeScreenCall: { close: ReturnType<typeof vi.fn>; on: ReturnType<typeof vi.fn>; peer: string }
+  let fakePeer: { call: ReturnType<typeof vi.fn> }
+  let fakeCall: { peer: string }
+  let peerRef: { current: typeof fakePeer | null }
   let callRef: { current: typeof fakeCall | null }
-  let streamRef: { current: { getVideoTracks: () => typeof fakeCameraTrack[] } | null }
 
   beforeEach(() => {
     fakeDisplayTrack = makeFakeDisplayTrack()
-    fakeCameraTrack = makeFakeCameraTrack()
-    fakeSender = makeFakeSender(fakeCameraTrack)
-    fakePeerConnection = {
-      getSenders: vi.fn().mockReturnValue([fakeSender]),
+    fakeScreenCall = {
+      close: vi.fn(),
+      on: vi.fn(),
+      peer: 'remote-peer-id',
     }
-    fakeCall = { peerConnection: fakePeerConnection }
+    fakePeer = {
+      call: vi.fn().mockReturnValue(fakeScreenCall),
+    }
+    fakeCall = { peer: 'remote-peer-id' }
+    peerRef = { current: fakePeer }
     callRef = { current: fakeCall }
-    streamRef = { current: { getVideoTracks: () => [fakeCameraTrack] } }
 
     // Mock getDisplayMedia
     const fakeDisplayStream = {
@@ -67,19 +53,18 @@ describe('useScreenShare', () => {
   it('initially isScreenSharing is false', () => {
     const { result } = renderHook(() =>
       useScreenShare(
-        callRef as Parameters<typeof useScreenShare>[0],
-        streamRef as Parameters<typeof useScreenShare>[1]
+        peerRef as Parameters<typeof useScreenShare>[0],
+        callRef as Parameters<typeof useScreenShare>[1],
       )
     )
     expect(result.current.isScreenSharing).toBe(false)
   })
 
-  it('startScreenShare calls getDisplayMedia and replaces video sender track', async () => {
-    const { useScreenShare } = await import('./useScreenShare')
+  it('startScreenShare calls getDisplayMedia and opens a second peer call', async () => {
     const { result } = renderHook(() =>
       useScreenShare(
-        callRef as Parameters<typeof useScreenShare>[0],
-        streamRef as Parameters<typeof useScreenShare>[1]
+        peerRef as Parameters<typeof useScreenShare>[0],
+        callRef as Parameters<typeof useScreenShare>[1],
       )
     )
 
@@ -88,15 +73,18 @@ describe('useScreenShare', () => {
     })
 
     expect(navigator.mediaDevices.getDisplayMedia).toHaveBeenCalledWith({ video: true, audio: false })
-    expect(fakeSender.replaceTrack).toHaveBeenCalledWith(fakeDisplayTrack)
+    expect(fakePeer.call).toHaveBeenCalledWith(
+      'remote-peer-id',
+      expect.anything(),
+      { metadata: { type: 'screenshare' } }
+    )
   })
 
   it('startScreenShare sets isScreenSharing to true', async () => {
-    const { useScreenShare } = await import('./useScreenShare')
     const { result } = renderHook(() =>
       useScreenShare(
-        callRef as Parameters<typeof useScreenShare>[0],
-        streamRef as Parameters<typeof useScreenShare>[1]
+        peerRef as Parameters<typeof useScreenShare>[0],
+        callRef as Parameters<typeof useScreenShare>[1],
       )
     )
 
@@ -108,11 +96,10 @@ describe('useScreenShare', () => {
   })
 
   it('startScreenShare attaches onended handler to display track', async () => {
-    const { useScreenShare } = await import('./useScreenShare')
     const { result } = renderHook(() =>
       useScreenShare(
-        callRef as Parameters<typeof useScreenShare>[0],
-        streamRef as Parameters<typeof useScreenShare>[1]
+        peerRef as Parameters<typeof useScreenShare>[0],
+        callRef as Parameters<typeof useScreenShare>[1],
       )
     )
 
@@ -123,12 +110,11 @@ describe('useScreenShare', () => {
     expect(fakeDisplayTrack.onended).toBeTypeOf('function')
   })
 
-  it('stopScreenShare stops display track and restores camera track via replaceTrack', async () => {
-    const { useScreenShare } = await import('./useScreenShare')
+  it('stopScreenShare stops display track and closes the screen call', async () => {
     const { result } = renderHook(() =>
       useScreenShare(
-        callRef as Parameters<typeof useScreenShare>[0],
-        streamRef as Parameters<typeof useScreenShare>[1]
+        peerRef as Parameters<typeof useScreenShare>[0],
+        callRef as Parameters<typeof useScreenShare>[1],
       )
     )
 
@@ -136,23 +122,19 @@ describe('useScreenShare', () => {
       await result.current.startScreenShare()
     })
 
-    // Reset replaceTrack call count
-    fakeSender.replaceTrack.mockClear()
-
     await act(async () => {
-      await result.current.stopScreenShare()
+      result.current.stopScreenShare()
     })
 
     expect(fakeDisplayTrack.stop).toHaveBeenCalled()
-    expect(fakeSender.replaceTrack).toHaveBeenCalledWith(fakeCameraTrack)
+    expect(fakeScreenCall.close).toHaveBeenCalled()
   })
 
   it('stopScreenShare sets isScreenSharing to false', async () => {
-    const { useScreenShare } = await import('./useScreenShare')
     const { result } = renderHook(() =>
       useScreenShare(
-        callRef as Parameters<typeof useScreenShare>[0],
-        streamRef as Parameters<typeof useScreenShare>[1]
+        peerRef as Parameters<typeof useScreenShare>[0],
+        callRef as Parameters<typeof useScreenShare>[1],
       )
     )
 
@@ -163,18 +145,17 @@ describe('useScreenShare', () => {
     expect(result.current.isScreenSharing).toBe(true)
 
     await act(async () => {
-      await result.current.stopScreenShare()
+      result.current.stopScreenShare()
     })
 
     expect(result.current.isScreenSharing).toBe(false)
   })
 
-  it('when displayTrack.onended fires, camera track is restored automatically', async () => {
-    const { useScreenShare } = await import('./useScreenShare')
+  it('when displayTrack.onended fires, screen call is closed automatically', async () => {
     const { result } = renderHook(() =>
       useScreenShare(
-        callRef as Parameters<typeof useScreenShare>[0],
-        streamRef as Parameters<typeof useScreenShare>[1]
+        peerRef as Parameters<typeof useScreenShare>[0],
+        callRef as Parameters<typeof useScreenShare>[1],
       )
     )
 
@@ -182,40 +163,32 @@ describe('useScreenShare', () => {
       await result.current.startScreenShare()
     })
 
-    // Capture the onended handler
     const onendedHandler = fakeDisplayTrack.onended as (() => void) | null
     expect(onendedHandler).toBeTypeOf('function')
 
-    // Reset to track the restore call
-    fakeSender.replaceTrack.mockClear()
-
-    // Fire the OS stop-sharing button handler
     await act(async () => {
       onendedHandler!()
     })
 
-    expect(fakeSender.replaceTrack).toHaveBeenCalledWith(fakeCameraTrack)
+    expect(fakeScreenCall.close).toHaveBeenCalled()
     expect(result.current.isScreenSharing).toBe(false)
   })
 
   it('startScreenShare silently catches NotAllowedError when user cancels picker', async () => {
-    const { useScreenShare } = await import('./useScreenShare')
     const cancelError = new DOMException('Permission denied', 'NotAllowedError')
     ;(navigator.mediaDevices.getDisplayMedia as ReturnType<typeof vi.fn>).mockRejectedValue(cancelError)
 
     const { result } = renderHook(() =>
       useScreenShare(
-        callRef as Parameters<typeof useScreenShare>[0],
-        streamRef as Parameters<typeof useScreenShare>[1]
+        peerRef as Parameters<typeof useScreenShare>[0],
+        callRef as Parameters<typeof useScreenShare>[1],
       )
     )
 
-    // Should not throw
     await act(async () => {
       await result.current.startScreenShare()
     })
 
-    // isScreenSharing stays false
     expect(result.current.isScreenSharing).toBe(false)
   })
 })

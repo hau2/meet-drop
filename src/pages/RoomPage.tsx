@@ -36,9 +36,9 @@ export function RoomPage() {
   const { peerRef } = usePeer(id ?? '')
   const { streamRef, error, isLoading, toggleMic, toggleCamera } = useMedia()
   const { isMicOn, isCameraOn, connectionState, callEnded, joined, setJoined } = useCallStore()
-  const { callRef, remoteStreamRef, hangUp } = useCall(peerRef, streamRef, id ?? '')
+  const { callRef, remoteStreamRef, remoteScreenStreamRef, isRemoteScreenSharing, hangUp } = useCall(peerRef, streamRef, id ?? '')
   const { sendMessage, isReady } = useChat(peerRef, id ?? '')
-  const { isScreenSharing, startScreenShare, stopScreenShare } = useScreenShare(callRef, streamRef)
+  const { isScreenSharing, startScreenShare, stopScreenShare } = useScreenShare(peerRef, callRef)
   const networkQuality = useNetworkQuality(callRef, connectionState === 'connected')
 
   const roomLink = `${window.location.origin}${import.meta.env.BASE_URL.replace(/\/$/, '')}/#/room/${id}`
@@ -52,6 +52,8 @@ export function RoomPage() {
     return (
       <CallView
         remoteStreamRef={remoteStreamRef}
+        remoteScreenStreamRef={remoteScreenStreamRef}
+        isRemoteScreenSharing={isRemoteScreenSharing}
         localStreamRef={streamRef}
         onHangUp={hangUp}
         toggleMic={toggleMic}

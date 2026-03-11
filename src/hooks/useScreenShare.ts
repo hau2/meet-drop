@@ -1,35 +1,34 @@
 import { useState, useRef, useCallback } from 'react'
 import type { RefObject } from 'react'
+import type Peer from 'peerjs'
 import type { MediaConnection } from 'peerjs'
 
 export function useScreenShare(
+  peerRef: RefObject<Peer | null>,
   callRef: RefObject<MediaConnection | null>,
-  streamRef: RefObject<MediaStream | null>
 ) {
   const [isScreenSharing, setIsScreenSharing] = useState(false)
+  const screenCallRef = useRef<MediaConnection | null>(null)
   const displayTrackRef = useRef<MediaStreamTrack | null>(null)
 
-  const stopScreenShare = useCallback(async () => {
-    // Stop and release the display capture track
+  const stopScreenShare = useCallback(() => {
     displayTrackRef.current?.stop()
     displayTrackRef.current = null
-
-    // Restore the camera track via replaceTrack
-    const pc = (callRef.current as any)?.peerConnection as RTCPeerConnection | undefined
-    if (pc) {
-      const sender = pc.getSenders().find((s) => s.track?.kind === 'video' || !s.track)
-      const cameraTrack = streamRef.current?.getVideoTracks()[0]
-      if (sender && cameraTrack) {
-        await sender.replaceTrack(cameraTrack)
-      }
-    }
-
+    screenCallRef.current?.close()
+    screenCallRef.current = null
     setIsScreenSharing(false)
-  }, [callRef, streamRef])
+  }, [])
 
   const startScreenShare = useCallback(async () => {
     if (!navigator.mediaDevices?.getDisplayMedia) {
       console.error('Screen sharing is not supported in this browser')
+      return
+    }
+
+    const peer = peerRef.current
+    const mainCall = callRef.current
+    if (!peer || !mainCall) {
+      console.error('No peer or call available for screen share')
       return
     }
 
@@ -40,30 +39,24 @@ export function useScreenShare(
       })
 
       const displayTrack = displayStream.getVideoTracks()[0]
+      const remotePeerId = mainCall.peer
 
-      // Access peerConnection — use `as any` to bypass PeerJS type narrowing
-      const pc = (callRef.current as any)?.peerConnection as RTCPeerConnection | undefined
-      if (!pc) {
-        console.error('No peer connection available for screen share')
-        displayTrack.stop()
-        return
-      }
+      // Open a second call for the screen share — camera stays on the main call
+      const screenCall = peer.call(remotePeerId, displayStream, {
+        metadata: { type: 'screenshare' },
+      })
 
-      // Find video sender — also match senders with null track (camera off)
-      const sender = pc.getSenders().find((s) => s.track?.kind === 'video' || !s.track)
-      if (!sender) {
-        console.error('No video sender found for screen share')
-        displayTrack.stop()
-        return
-      }
-
-      await sender.replaceTrack(displayTrack)
-
+      screenCallRef.current = screenCall
       displayTrackRef.current = displayTrack
       setIsScreenSharing(true)
 
       // Handle OS "Stop Sharing" button
       displayTrack.onended = () => stopScreenShare()
+
+      screenCall.on('close', () => {
+        // Remote hung up the screen share call
+        if (displayTrackRef.current) stopScreenShare()
+      })
     } catch (err) {
       // Silently catch user cancellation
       if (err instanceof DOMException && err.name === 'NotAllowedError') {
@@ -71,7 +64,7 @@ export function useScreenShare(
       }
       console.error('Screen share error:', err)
     }
-  }, [callRef, stopScreenShare])
+  }, [peerRef, callRef, stopScreenShare])
 
   return { isScreenSharing, startScreenShare, stopScreenShare }
 }
