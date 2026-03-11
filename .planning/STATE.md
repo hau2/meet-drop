@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 04-02-PLAN.md — encrypted chat UI human-verified and approved
-last_updated: "2026-03-11T04:46:48.476Z"
+stopped_at: Completed 05-02-PLAN.md — screen share hook, network quality hook, and badge component
+last_updated: "2026-03-11T10:19:41.187Z"
 last_activity: "2026-03-11 — Phase 2 Media + Lobby complete: lobby UI, camera preview, mic/camera toggles, copy link, PiP self-view, responsive layout — human verification approved"
 progress:
   total_phases: 5
   completed_phases: 4
-  total_plans: 8
-  completed_plans: 8
+  total_plans: 11
+  completed_plans: 9
   percent: 50
 ---
 
@@ -61,6 +61,7 @@ Progress: [█████░░░░░] 50%
 | Phase 04-encrypted-chat P01 | 4 | 2 tasks | 8 files |
 | Phase 04-encrypted-chat P02 | 3 | 1 tasks | 4 files |
 | Phase 04-encrypted-chat P02 | 15 | 2 tasks | 5 files |
+| Phase 05-polish P02 | 3 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -101,6 +102,9 @@ Recent decisions affecting current work:
 - [Phase 04-encrypted-chat]: ChatPanel onSend typed as (text: string) => void not Promise — keeps component synchronous and testable
 - [Phase 04-encrypted-chat]: Duplicate DataConnection handler bug (React Strict Mode double-mount) fixed by removing listeners in useEffect cleanup
 - [Phase 04-encrypted-chat]: ChatPanel onSend typed as (text: string) => void not Promise — keeps component synchronous and testable
+- [Phase 05-polish]: displayTrackRef stored in useRef not useState for screen share track — avoids re-render on track assignment
+- [Phase 05-polish]: callRef exposed from useCall return value — minimal change enabling useScreenShare and useNetworkQuality access to peerConnection
+- [Phase 05-polish]: useNetworkQuality uses delta nackCount/packetsSent across intervals for accurate packet loss ratio, not cumulative totals
 
 ### Pending Todos
 
@@ -114,6 +118,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11T04:38:42.950Z
-Stopped at: Completed 04-02-PLAN.md — encrypted chat UI human-verified and approved
+Last session: 2026-03-11T10:19:41.185Z
+Stopped at: Completed 05-02-PLAN.md — screen share hook, network quality hook, and badge component
 Resume file: None
