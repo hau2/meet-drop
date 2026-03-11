@@ -65,7 +65,7 @@ completed: 2026-03-11
 - **Duration:** 2 min
 - **Started:** 2026-03-11T00:34:08Z
 - **Completed:** 2026-03-11T00:36:30Z
-- **Tasks:** 2 (automated) + 1 checkpoint pending human verify
+- **Tasks:** 3 (2 automated + 1 human-verify checkpoint — approved)
 - **Files modified:** 8
 
 ## Accomplishments
@@ -83,6 +83,7 @@ Each task was committed atomically via TDD (test RED then implementation GREEN):
 1. **Task 1 RED: failing tests for HomePage, CopyLinkButton, SelfViewOverlay** - `3b6c4d5` (test)
 2. **Task 1 GREEN: implement all lobby UI components** - `eebceaf` (feat)
 3. **Task 2: assemble RoomPage lobby layout** - `0f98672` (feat)
+4. **Task 3: human verification checkpoint** - approved (camera preview, toggles, copy link, PiP self-view, responsive layout at 375px/1280px, stream release on navigation)
 
 **Plan metadata:** (docs commit — see below)
 
@@ -123,7 +124,7 @@ None - no external service configuration required.
 - Lobby UI complete: camera preview, mic/camera toggles, copy link, PiP self-view, manual join
 - RoomPage has disabled "Waiting for peer..." button placeholder ready for Phase 3 to wire active call connection
 - All components export correct interfaces for Phase 3 consumption
-- Human verification checkpoint pending (Task 3) — dev server must be started for manual QA
+- Human verification checkpoint (Task 3) approved — all 12 lobby verification steps confirmed passing
 
 ## Self-Check: PASSED
 

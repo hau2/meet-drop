@@ -48,8 +48,8 @@ Plans:
   6. User's own video appears as a picture-in-picture overlay with a mirrored self-view
 **Plans:** 2/2 plans complete
 Plans:
-- [ ] 02-01-PLAN.md — useMedia hook, VideoPreview component, store extension, and media types (TDD)
-- [ ] 02-02-PLAN.md — HomePage join input, CopyLinkButton, MediaControls, SelfViewOverlay, RoomPage lobby layout, and human verification
+- [x] 02-01-PLAN.md — useMedia hook, VideoPreview component, store extension, and media types (TDD)
+- [x] 02-02-PLAN.md — HomePage join input, CopyLinkButton, MediaControls, SelfViewOverlay, RoomPage lobby layout, and human verification
 
 ### Phase 3: Core Call
 **Goal**: Two users on the same room link can see and hear each other in a live 1-on-1 video call with visible connection state and a clean exit experience
