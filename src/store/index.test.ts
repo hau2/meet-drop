@@ -41,4 +41,55 @@ describe('useCallStore', () => {
     useCallStore.getState().reset()
     expect(useCallStore.getState().wasConnected).toBe(false)
   })
+
+  // Chat state tests
+  it('messages defaults to empty array', () => {
+    expect(useCallStore.getState().messages).toEqual([])
+  })
+
+  it('isChatOpen defaults to false', () => {
+    expect(useCallStore.getState().isChatOpen).toBe(false)
+  })
+
+  it('addMessage appends to messages array', () => {
+    const msg = { from: 'local' as const, text: 'hello', timestamp: 1234567890 }
+    useCallStore.getState().addMessage(msg)
+    expect(useCallStore.getState().messages).toHaveLength(1)
+    expect(useCallStore.getState().messages[0]).toEqual(msg)
+  })
+
+  it('addMessage appends multiple messages in order', () => {
+    const msg1 = { from: 'local' as const, text: 'first', timestamp: 1 }
+    const msg2 = { from: 'remote' as const, text: 'second', timestamp: 2 }
+    useCallStore.getState().addMessage(msg1)
+    useCallStore.getState().addMessage(msg2)
+    expect(useCallStore.getState().messages).toHaveLength(2)
+    expect(useCallStore.getState().messages[0]).toEqual(msg1)
+    expect(useCallStore.getState().messages[1]).toEqual(msg2)
+  })
+
+  it('setChatOpen(true) sets isChatOpen to true', () => {
+    useCallStore.getState().setChatOpen(true)
+    expect(useCallStore.getState().isChatOpen).toBe(true)
+  })
+
+  it('setChatOpen(false) sets isChatOpen to false', () => {
+    useCallStore.getState().setChatOpen(true)
+    useCallStore.getState().setChatOpen(false)
+    expect(useCallStore.getState().isChatOpen).toBe(false)
+  })
+
+  it('reset() clears messages to [] and isChatOpen to false', () => {
+    useCallStore.getState().addMessage({ from: 'local', text: 'hi', timestamp: 1 })
+    useCallStore.getState().setChatOpen(true)
+    useCallStore.getState().reset()
+    expect(useCallStore.getState().messages).toEqual([])
+    expect(useCallStore.getState().isChatOpen).toBe(false)
+  })
+
+  it('chat messages are never written to localStorage', () => {
+    useCallStore.getState().addMessage({ from: 'local', text: 'secret', timestamp: 1 })
+    useCallStore.getState().setChatOpen(true)
+    expect(Object.keys(localStorage).length).toBe(0)
+  })
 })
