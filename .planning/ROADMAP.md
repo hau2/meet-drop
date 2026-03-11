@@ -46,7 +46,7 @@ Plans:
   4. User can also join by entering a Room ID manually
   5. The lobby layout is usable on both a desktop browser (1280px+) and a mobile browser (375px) without horizontal scrolling or clipped controls
   6. User's own video appears as a picture-in-picture overlay with a mirrored self-view
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 Plans:
 - [ ] 02-01-PLAN.md — useMedia hook, VideoPreview component, store extension, and media types (TDD)
 - [ ] 02-02-PLAN.md — HomePage join input, CopyLinkButton, MediaControls, SelfViewOverlay, RoomPage lobby layout, and human verification
@@ -92,7 +92,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete    | 2026-03-11 |
-| 2. Media + Lobby | 0/2 | Planning complete | - |
+| 2. Media + Lobby | 1/2 | In Progress|  |
 | 3. Core Call | 0/TBD | Not started | - |
 | 4. Encrypted Chat | 0/TBD | Not started | - |
 | 5. Polish | 0/TBD | Not started | - |

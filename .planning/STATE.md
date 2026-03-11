@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-02-PLAN.md — Phase 1 foundation complete
-last_updated: "2026-03-11T00:07:25.600Z"
+stopped_at: Completed 02-01-PLAN.md — useMedia hook and VideoPreview component with 26 tests green
+last_updated: "2026-03-11T00:32:50.170Z"
 last_activity: 2026-03-11 — Roadmap created, 19/19 requirements mapped across 5 phases
 progress:
   total_phases: 5
   completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
+  total_plans: 4
+  completed_plans: 3
   percent: 50
 ---
 
@@ -53,6 +53,7 @@ Progress: [█████░░░░░] 50%
 | Phase 01-foundation P01 | 4 minutes | 2 tasks | 21 files |
 | Phase 01-foundation P02 | 2 minutes | 1 tasks | 7 files |
 | Phase 01-foundation P02 | 2 | 2 tasks | 7 files |
+| Phase 02-media-lobby P01 | 8 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -71,6 +72,9 @@ Recent decisions affecting current work:
 - [Phase 01-foundation]: Metered Open Relay (openrelayproject) used for dev TURN — zero setup, 20 GB/month free
 - [Phase 01-foundation]: dual useEffect for usePeer: Peer lifecycle on [roomId], beforeunload on [] — keeps concerns separated
 - [Phase 01-foundation]: Strict Mode guard (if peerRef.current return) as first statement in Peer-lifecycle useEffect — prevents double-init
+- [Phase 02-media-lobby]: useCallStore.getState() used inside toggleMic/toggleCamera callbacks — avoids stale closure bug when toggling rapidly
+- [Phase 02-media-lobby]: stream stored in useRef not useState — MediaStream in Zustand causes re-render loops (anti-pattern)
+- [Phase 02-media-lobby]: track.enabled for mute/unmute toggles; track.stop() only in useEffect cleanup to release hardware
 
 ### Pending Todos
 
@@ -84,6 +88,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-11T00:04:01.474Z
-Stopped at: Completed 01-02-PLAN.md — Phase 1 foundation complete
+Last session: 2026-03-11T00:32:50.169Z
+Stopped at: Completed 02-01-PLAN.md — useMedia hook and VideoPreview component with 26 tests green
 Resume file: None

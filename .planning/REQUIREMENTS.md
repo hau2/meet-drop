@@ -15,9 +15,9 @@
 ### Video & Audio
 
 - [ ] **AV-01**: User can make a 1-on-1 video and audio call via WebRTC (PeerJS)
-- [ ] **AV-02**: User can toggle microphone on/off during a call
-- [ ] **AV-03**: User can toggle camera on/off during a call
-- [ ] **AV-04**: User can preview camera and mic in a lobby screen before joining
+- [x] **AV-02**: User can toggle microphone on/off during a call
+- [x] **AV-03**: User can toggle camera on/off during a call
+- [x] **AV-04**: User can preview camera and mic in a lobby screen before joining
 - [ ] **AV-05**: User can see their own video as a small picture-in-picture overlay
 - [ ] **AV-06**: User can share their screen, replacing the camera track for the remote peer
 - [ ] **AV-07**: User can view remote video in fullscreen mode
@@ -68,9 +68,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CONN-03 | Phase 2 | Pending |
 | CONN-04 | Phase 3 | Pending |
 | AV-01 | Phase 3 | Pending |
-| AV-02 | Phase 2 | Pending |
-| AV-03 | Phase 2 | Pending |
-| AV-04 | Phase 2 | Pending |
+| AV-02 | Phase 2 | Complete |
+| AV-03 | Phase 2 | Complete |
+| AV-04 | Phase 2 | Complete |
 | AV-05 | Phase 2 | Pending |
 | AV-06 | Phase 5 | Pending |
 | AV-07 | Phase 5 | Pending |
